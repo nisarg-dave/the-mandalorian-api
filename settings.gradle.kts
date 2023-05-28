@@ -1,0 +1,1 @@
+rootProject.name = "com.api.the-mandalorian-api"
