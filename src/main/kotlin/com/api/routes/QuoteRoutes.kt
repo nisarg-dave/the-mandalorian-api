@@ -8,7 +8,7 @@ import io.ktor.server.routing.*
 import kotlin.random.Random
 
 fun Route.getRandomQuotes() {
-    get("/quote/random"){
+    get("/quote"){
         val randomNumber = Random.nextInt(1,27)
         val randomQuote = quotesStorage.find { it.id == randomNumber }
         call.respond(randomQuote!!)
