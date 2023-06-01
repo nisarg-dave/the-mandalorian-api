@@ -12,8 +12,8 @@ object Quotes: Table(){
     val season = integer("season")
     val chapter =  varchar("chapter", 20)
     val character = varchar("character", 20)
+
+    override val primaryKey = PrimaryKey(id)
 }
 
-//val quotesStorage = listOf<Quote>(
-
-//    )
+//val quotesStorage = listOf<Quote>()

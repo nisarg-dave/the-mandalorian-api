@@ -1,5 +1,6 @@
 package com.api.dao
 
+import com.api.models.Characters
 import com.api.models.Quote
 import com.api.models.Quotes
 import com.zaxxer.hikari.*
@@ -28,6 +29,7 @@ object DatabaseFactory {
         ))
         transaction(database){
             SchemaUtils.create(Quotes)
+            SchemaUtils.create(Characters)
         }
     }
 
