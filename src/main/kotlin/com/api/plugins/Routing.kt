@@ -9,7 +9,7 @@ fun Application.configureRouting() {
     routing {
         getRandomQuotes()
         getQuotesByCharacter()
-        getQuotesFromSeason()
-        getCharacter()
+        getQuotesByShow()
+//        getCharacter()
     }
 }
