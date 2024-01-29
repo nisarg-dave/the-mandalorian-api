@@ -10,6 +10,9 @@ fun Application.configureRouting() {
         getRandomQuotes()
         getQuotesByCharacter()
         getQuotesByShow()
+        createQuote()
+        deleteQuote()
+        editQuote()
 //        getCharacter()
     }
 }

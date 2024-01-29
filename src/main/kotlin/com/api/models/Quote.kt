@@ -3,6 +3,7 @@ package com.api.models
 import kotlinx.serialization.Serializable
 import org.jetbrains.exposed.sql.Table
 
+// @Serializable means that Ktor knows how to serialize Quotes
 @Serializable
 data class Quote(val id:Int, val show: String, val season: Int, val episode: String, val character: String, val quote: String)
 
@@ -20,33 +21,33 @@ object Quotes: Table(){
 }
 
 val quotesStorage = mutableListOf<Quote>(
-    Quote(id = 1, show = "The Mandalorian", season = 1, episode = "Chapter 1", character = "Din Djarin", quote = "I can bring you in warm or I can bring you in cold."),
-    Quote(id = 2, show = "The Mandalorian", season = 1, episode = "Chapter 1", character = "Din Djarin", quote = "I like those odds."),
+    Quote(id = 1, show = "The Mandalorian", season = 1, episode = "Chapter 1", character = "The Mandalorian", quote = "I can bring you in warm or I can bring you in cold."),
+    Quote(id = 2, show = "The Mandalorian", season = 1, episode = "Chapter 1", character = "The Mandalorian", quote = "I like those odds."),
     Quote(id = 3, show = "The Mandalorian", season = 1, episode = "Chapter 1", character = "Kuiil", quote = "I have spoken."),
     Quote(id = 4, show = "The Mandalorian", season = 1, episode = "Chapter 1", character = "The Client", quote = "Bounty hunting is a complicated profession."),
     Quote(id = 6, show = "The Mandalorian", season = 1, episode = "Chapter 1", character = "IG-11", quote = "I will initiate self-destruct."),
-    Quote(id = 7, show = "The Mandalorian", season = 1, episode = "Chapter 2", character = "Din Djarin", quote = "I’m a Mandalorian. Weapons are part of my religion."),
+    Quote(id = 7, show = "The Mandalorian", season = 1, episode = "Chapter 2", character = "The Mandalorian", quote = "I’m a Mandalorian. Weapons are part of my religion."),
     Quote(id = 8, show = "The Mandalorian", season = 1, episode = "Chapter 3", character = "Greef Karga", quote = "They all hate you, Mando. Because you're a legend!"),
     Quote(id = 9, show = "The Mandalorian", season = 1, episode = "Chapter 3", character = "The Armorer", quote = "When one chooses to walk the Way of the Mandalore, you are both hunter and prey."),
     Quote(id = 10, show = "The Mandalorian", season = 1, episode = "Chapter 3", character = "The Armorer", quote = "This is the way."),
-    Quote(id = 11, show = "The Mandalorian", season = 1, episode = "Chapter 4", character = "Din Djarin", quote = "Stop touching things."),
-    Quote(id = 12, show = "The Mandalorian", season = 1, episode = "Chapter 4", character = "Din Djarin", quote = "Bad news. You can’t live here anymore."),
+    Quote(id = 11, show = "The Mandalorian", season = 1, episode = "Chapter 4", character = "The Mandalorian", quote = "Stop touching things."),
+    Quote(id = 12, show = "The Mandalorian", season = 1, episode = "Chapter 4", character = "The Mandalorian", quote = "Bad news. You can’t live here anymore."),
     Quote(id = 13, show = "The Mandalorian", season = 1, episode = "Chapter 5", character = "Fennec Shand", quote = "Your name will be legendary."),
     Quote(id = 14, show = "The Mandalorian", season = 1, episode = "Chapter 8", character = "The Armorer", quote = "You are a clan of two."),
     Quote(id = 15, show = "The Mandalorian", season = 1, episode = "Chapter 8", character = "Greef Karga", quote = "Come on, baby! Do the magic hand thing."),
-    Quote(id = 16, show = "The Mandalorian", season = 2, episode = "Chapter 9", character = "Din Djarin", quote = "Where I go, he goes."),
+    Quote(id = 16, show = "The Mandalorian", season = 2, episode = "Chapter 9", character = "The Mandalorian", quote = "Where I go, he goes."),
     Quote(id = 17, show = "The Mandalorian", season = 2, episode = "Chapter 9", character = "Cobb Vanth", quote = "I guess every once in a while both suns shine on a womp rat’s tail."),
-    Quote(id = 18, show = "The Mandalorian", season = 2, episode = "Chapter 10", character = "Din Djarin", quote = "I’m sorry, lady. I don’t understand frog."),
+    Quote(id = 18, show = "The Mandalorian", season = 2, episode = "Chapter 10", character = "The Mandalorian", quote = "I’m sorry, lady. I don’t understand frog."),
     Quote(id = 19, show = "The Mandalorian", season = 2, episode = "Chapter 11", character = "Bo-Katan Kryze", quote = "Mandalorians are stronger together."),
     Quote(id = 20, show = "The Mandalorian", season = 2, episode = "Chapter 12", character = "Bo-Katan Kryze", quote = "There you will find Ahsoka Tano. Tell her you were sent by Bo-Katan."),
     Quote(id = 21, show = "The Mandalorian", season = 2, episode = "Chapter 12", character = "Cara Dune", quote = "Dank farrik."),
-    Quote(id = 22, show = "The Mandalorian", season = 2, episode = "Chapter 13", character = "Din Djarin", quote = "Ahsoka Tano! Bo-Katan sent me. We need to talk."),
+    Quote(id = 22, show = "The Mandalorian", season = 2, episode = "Chapter 13", character = "The Mandalorian", quote = "Ahsoka Tano! Bo-Katan sent me. We need to talk."),
     Quote(id = 23, show = "The Mandalorian", season = 2, episode = "Chapter 13", character = "Ahsoka Tano", quote = "Grogu and I can feel each other’s thoughts."),
     Quote(id = 24, show = "The Mandalorian", season = 2, episode = "Chapter 13", character = "Ahsoka Tano", quote = "I’ve seen what such feelings can do to a fully trained Jedi Knight. To the best of us."),
     Quote(id = 25, show = "The Mandalorian", season = 2, episode = "Chapter 14", character = "Boba Fett", quote = "I don’t want your armor. I want my armor."),
     Quote(id = 26, show = "The Mandalorian", season = 2, episode = "Chapter 16", character = "Moff Gideon", quote = "A friendly piece of advice, assume that I know everything."),
     Quote(id = 27, show = "The Mandalorian", season = 2, episode = "Chapter 16", character = "Luke Skywalker", quote = "Come, little one."),
-    Quote(id = 28, show = "The Mandalorian", season = 2, episode = "Chapter 16", character = "Din Djarin", quote = "I’ll see you again. I promise."),
+    Quote(id = 28, show = "The Mandalorian", season = 2, episode = "Chapter 16", character = "The Mandalorian", quote = "I’ll see you again. I promise."),
     Quote(id = 29, show = "The Book of Boba Fett", season = 1, episode = "Chapter 1", character = "Boba Fett", quote = "I’m the crime lord. He’s supposed to pay me."),
     Quote(id = 30, show = "The Book of Boba Fett", season = 1, episode = "Chapter 1", character = "Fennec Shand", quote = "Shall I kill him?"),
     Quote(id = 31, show = "The Book of Boba Fett", season = 1, episode = "Chapter 1", character = "Boba Fett", quote = "Jabba ruled with fear. I intend to rule with respect."),
@@ -58,12 +59,12 @@ val quotesStorage = mutableListOf<Quote>(
     Quote(id = 37, show = "The Book of Boba Fett", season = 1, episode = "Chapter 4", character = "Boba Fett", quote = "Do you know who I am? I am Boba Fett."),
     Quote(id = 38, show = "The Book of Boba Fett", season = 1, episode = "Chapter 4", character = "Boba Fett", quote = "You can only get so far without a tribe."),
     Quote(id = 39, show = "The Book of Boba Fett", season = 1, episode = "Chapter 4", character = "Garsa Fwip", quote = "Hit it, Max."),
-    Quote(id = 40, show = "The Book of Boba Fett", season = 1, episode = "Chapter 5", character = "Din Djarin", quote = "Loyalty and solidarity are the way."),
+    Quote(id = 40, show = "The Book of Boba Fett", season = 1, episode = "Chapter 5", character = "The Mandalorian", quote = "Loyalty and solidarity are the way."),
     Quote(id = 41, show = "The Book of Boba Fett", season = 1, episode = "Chapter 5", character = "Peli Motto", quote = "Dated a Jawa for a while. They’re quite furry. Very furry."),
     Quote(id = 42, show = "The Book of Boba Fett", season = 1, episode = "Chapter 6", character = "Luke Skywalker", quote = "Get back up. Always get back up."),
     Quote(id = 43, show = "The Book of Boba Fett", season = 1, episode = "Chapter 6", character = "Ahsoka Tano", quote = "So much like your father."),
     Quote(id = 44, show = "The Book of Boba Fett", season = 1, episode = "Chapter 6", character = "Cad Bane", quote = "I’d be careful where I was sticking my nose if I were you."),
-    Quote(id = 45, show = "The Book of Boba Fett", season = 1, episode = "Chapter 7", character = "Din Djarin", quote = "We’ll both die in the name of honor."),
+    Quote(id = 45, show = "The Book of Boba Fett", season = 1, episode = "Chapter 7", character = "The Mandalorian", quote = "We’ll both die in the name of honor."),
     Quote(id = 46, show = "The Book of Boba Fett", season = 1, episode = "Chapter 7", character = "Boba Fett", quote = "This is my city!"),
     Quote(id = 47, show = "The Book of Boba Fett", season = 1, episode = "Chapter 7", character = "Fennec Shand", quote = "If not us, then who?"),
     Quote(id = 48, show = "Ahsoka", season = 1, episode = "Part One", character = "Ahsoka Tano", quote = "Let's just say I didn't follow standard Jedi protocol."),
