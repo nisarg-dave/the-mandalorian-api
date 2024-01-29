@@ -28,8 +28,8 @@ fun Route.getRandomQuotes() {
 
 fun Route.getQuotesByCharacter(){
 //    uses a lambda expression as router handler.
-    // if I do this {character?} means character is optional but we don't want that
-    get("/quote/character/{character}"){
+    // if I do this {character?} means character is optional, but we don't want that
+    get("/quotes/character/{character}"){
 //        val character  = call.parameters["character"] ?: call.respondText("Missing Character", status = HttpStatusCode.BadRequest)
 //        val quotesByCharacter = quotesDAO.quotesByCharacter(call.parameters["character"]!!)
 //        if(quotesByCharacter.isEmpty()){
@@ -45,7 +45,7 @@ fun Route.getQuotesByCharacter(){
 }
 
 fun Route.getQuotesByShow(){
-    get("/quote/show/{show}"){
+    get("/quotes/show/{show}"){
         val show = call.parameters["show"] ?: return@get call.respondText("Missing show.", status = HttpStatusCode.BadRequest)
         val season = call.request.queryParameters["season"]
         if(season == null){
@@ -90,7 +90,6 @@ fun Route.editQuote(){
         val id = call.parameters["id"] ?: return@put call.respond(HttpStatusCode.BadRequest)
         val quoteToUpdate = quotesStorage.find {it.id == id.toInt()} ?: return@put call.respondText("Not found", status = HttpStatusCode.NotFound)
         val indexOfQuote = quotesStorage.indexOf(quoteToUpdate)
-        println(indexOfQuote)
         quotesStorage[indexOfQuote] = call.receive<Quote>()
 //        200 OK
         call.respondText("Updated correctly", status = HttpStatusCode.OK)
