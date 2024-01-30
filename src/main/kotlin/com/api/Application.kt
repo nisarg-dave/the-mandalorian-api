@@ -5,6 +5,8 @@ import io.ktor.server.application.*
 import io.ktor.server.engine.*
 import io.ktor.server.netty.*
 import com.api.plugins.*
+import com.api.routes.characterRoutes
+import com.api.routes.quoteRoutes
 
 //fun main() {
 //    // We are using embeddedServer instead of application.conf file to create the server
@@ -18,5 +20,6 @@ fun main(args: Array<String>): Unit = io.ktor.server.netty.EngineMain.main(args)
 fun Application.module() {
 //    DatabaseFactory.init(environment.config)
     configureSerialization()
-    configureRouting()
+    characterRoutes()
+    quoteRoutes()
 }

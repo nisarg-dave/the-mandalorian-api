@@ -9,6 +9,17 @@ import io.ktor.server.response.*
 import io.ktor.server.routing.*
 import kotlin.random.Random
 
+fun Application.quoteRoutes(){
+    routing {
+        getRandomQuotes()
+        getQuotesByCharacter()
+        getQuotesByShow()
+        createQuote()
+        deleteQuote()
+        editQuote()
+    }
+}
+
 fun Route.getRandomQuotes() {
 //    Route.get and other http methods are extension functions
     get("/random/quote"){

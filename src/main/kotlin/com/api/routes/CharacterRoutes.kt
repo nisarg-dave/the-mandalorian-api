@@ -10,6 +10,17 @@ import io.ktor.server.routing.*
 import kotlin.random.Random
 import kotlin.random.nextInt
 
+fun Application.characterRoutes(){
+    // Take trailing lambda as a parameter
+    routing {
+        //        The routing function establishes a context where an implicit Route receiver is available within its lambda.
+        getRandomCharacter()
+        getCharacterByName()
+        createCharacter()
+        deleteCharacter()
+        editCharacter()
+    }
+}
 
 fun Route.getRandomCharacter(){
     get("/random/character"){
