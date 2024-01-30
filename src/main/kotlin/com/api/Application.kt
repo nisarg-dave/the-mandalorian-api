@@ -6,6 +6,7 @@ import io.ktor.server.engine.*
 import io.ktor.server.netty.*
 import com.api.plugins.*
 import com.api.routes.characterRoutes
+import com.api.routes.planetRoutes
 import com.api.routes.quoteRoutes
 
 //fun main() {
@@ -22,4 +23,5 @@ fun Application.module() {
     configureSerialization()
     characterRoutes()
     quoteRoutes()
+    planetRoutes()
 }

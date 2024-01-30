@@ -54,7 +54,6 @@ fun Route.createCharacter(){
 fun Route.deleteCharacter(){
     delete("/character/{id}") {
         val id = call.parameters["id"] ?: return@delete call.respond(HttpStatusCode.BadRequest)
-        println("id $id")
         if(charactersStorage.removeIf {it.id == id.toInt()}){
             call.respondText("Character removed correctly.", status = HttpStatusCode.Accepted)
         }
