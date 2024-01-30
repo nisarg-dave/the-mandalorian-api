@@ -80,7 +80,7 @@ fun Route.deleteQuote(){
         }
         else {
 //            404 not found
-            call.respondText("Not Found", status = HttpStatusCode.NotFound)
+            call.respondText("Not found.", status = HttpStatusCode.NotFound)
         }
     }
 }
@@ -92,7 +92,7 @@ fun Route.editQuote(){
         val indexOfQuote = quotesStorage.indexOf(quoteToUpdate)
         quotesStorage[indexOfQuote] = call.receive<Quote>()
 //        200 OK
-        call.respondText("Updated correctly", status = HttpStatusCode.OK)
+        call.respondText("Quote updated correctly.", status = HttpStatusCode.OK)
     }
 }
 

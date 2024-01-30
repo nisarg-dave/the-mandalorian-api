@@ -16,5 +16,8 @@ fun Application.configureRouting() {
         editQuote()
         getRandomCharacter()
         getCharacterByName()
+        createCharacter()
+            deleteCharacter()
+        editCharacter()
     }
 }

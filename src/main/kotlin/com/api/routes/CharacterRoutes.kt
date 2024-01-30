@@ -4,6 +4,7 @@ import com.api.dao.characters.charactersDAO
 import com.api.models.*
 import io.ktor.server.application.*
 import io.ktor.http.*
+import io.ktor.server.request.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
 import kotlin.random.Random
@@ -24,14 +25,43 @@ fun Route.getRandomCharacter(){
 
 fun Route.getCharacterByName(){
     get("/character/{name}"){
-        val name = call.parameters["name"] ?: return@get call.respondText("Missing name.", status=HttpStatusCode.BadRequest)
+        val name = call.parameters["name"] ?: return@get call.respondText("Missing name.", status = HttpStatusCode.BadRequest)
         val character = charactersStorage.find {it.name == name} ?: return@get call.respondText("Not found", status=HttpStatusCode.NotFound)
         call.respond(character)
     }
 }
 
+fun Route.createCharacter(){
+    post("/character"){
+        val character = call.receive<Character>()
+        charactersStorage.add(character)
+        call.respondText("Character stored correctly.", status = HttpStatusCode.Created)
+    }
 
-// character/name
-// PUT /character/id
-// POSt /character
-// delete /character/id
+}
+
+fun Route.deleteCharacter(){
+    delete("/character/{id}") {
+        val id = call.parameters["id"] ?: return@delete call.respond(HttpStatusCode.BadRequest)
+        println("id $id")
+        if(charactersStorage.removeIf {it.id == id.toInt()}){
+            call.respondText("Character removed correctly.", status = HttpStatusCode.Accepted)
+        }
+        else{
+            call.respondText("Not found.", status = HttpStatusCode.NotFound)
+        }
+    }
+}
+
+fun Route.editCharacter(){
+    put("/character/{id}"){
+        val id = call.parameters["id"] ?: return@put call.respond(HttpStatusCode.BadRequest)
+        val characterToUpdate = charactersStorage.find { it.id == id.toInt() }
+        val indexOfCharacter = charactersStorage.indexOf(characterToUpdate)
+        charactersStorage[indexOfCharacter] = call.receive<Character>()
+        call.respondText("Character updated correctly.", status = HttpStatusCode.OK)
+    }
+}
+
+
+
