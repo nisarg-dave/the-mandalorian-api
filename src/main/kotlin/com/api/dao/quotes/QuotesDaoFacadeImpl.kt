@@ -49,17 +49,16 @@ class QuotesDaoFacadeImpl : QuotesDaoFacade {
         }
     }
 
-    override suspend fun addQuote(show: String, season: Int, episode: String, character: String, quote: String): Quote? {
+    override suspend fun addQuote(newQuote: Quote): Quote? {
 //        Inside the lambda, we are specifying which value is supposed to be set for which column
 //        I think because POST returns what you posted, we return it
         return dbQuery {
-
             val insertStatement = Quotes.insert {
-                it[this.show] = show
-                it[this.season] = season
-                it[this.episode] = episode
-                it[this.character] = character
-                it[this.quote] = quote
+                it[this.show] = newQuote.show
+                it[this.season] = newQuote.season
+                it[this.episode] = newQuote.episode
+                it[this.character] = newQuote.character
+                it[this.quote] = newQuote.quote
             }
             insertStatement.resultedValues?.singleOrNull()?.let(::resultRowToQuote)
         }
@@ -69,15 +68,17 @@ class QuotesDaoFacadeImpl : QuotesDaoFacade {
     override suspend fun removeQuote( id: Int ): Boolean = dbQuery { Quotes.deleteWhere { Quotes.id eq id } > 0 }
 
 
-    override suspend fun editQuote(id: Int, show: String, season: Int, episode: String, character: String, quote: String): Boolean =  dbQuery { Quotes.update({Quotes.id eq id}) {
-        it[this.show] = show
-        it[this.season] = season
-        it[this.episode] = episode
-        it[this.character] = character
-        it[this.quote] = quote
+    override suspend fun editQuote(editedQuote: Quote): Boolean =  dbQuery { Quotes.update({Quotes.id eq editedQuote.id}) {
+        it[this.show] = editedQuote.show
+        it[this.season] = editedQuote.season
+        it[this.episode] = editedQuote.episode
+        it[this.character] = editedQuote.character
+        it[this.quote] = editedQuote.quote
     } > 0 }
 
 }
+
+val quotesDAO = QuotesDaoFacadeImpl()
 
 //Initializing the Quotes Facade
 //val quotesDAO = QuotesDaoFacadeImpl().apply {

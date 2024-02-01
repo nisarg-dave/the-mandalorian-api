@@ -7,7 +7,7 @@ interface QuotesDaoFacade{
     suspend fun randomQuote():Quote?
     suspend fun quotesByCharacter(character: String): List<Quote>
     suspend fun quotesByShow(show: String, season: Int?): List<Quote>
-    suspend fun addQuote(show: String, season: Int, episode: String, character: String, quote: String):Quote?
+    suspend fun addQuote(newQuote: Quote):Quote?
     suspend fun removeQuote(id: Int): Boolean
-    suspend fun editQuote(id: Int, show: String, season: Int, episode: String, character: String, quote: String): Boolean
+    suspend fun editQuote(editedQuote: Quote): Boolean
 }
