@@ -14,6 +14,8 @@ import org.jetbrains.exposed.sql.transactions.transaction
 
 object DatabaseFactory {
     fun init(config: ApplicationConfig){
+//        A data access object is pattern that provides an interface to a database without exposing the details of the database.
+//        Every database connection using Exposed requires the JDBC url and driver class name
         val driverClassName = config.property("storage.driverClassName").getString()
         val jdbcURL = config.property("storage.jdbcUrl").getString()
         val maxPoolSize = config.property("storage.maxPoolSize").getString()
@@ -28,6 +30,8 @@ object DatabaseFactory {
             autoCommit = autoCommit.toBoolean()
         ))
         transaction(database){
+//            After obtaining the connection, all SQL statements should be placed inside a transaction
+//            SchemaUtils has utility functions that assist with creating, altering, and dropping database schema objects.
             SchemaUtils.create(Quotes)
             SchemaUtils.create(Characters)
         }
@@ -44,7 +48,10 @@ object DatabaseFactory {
         })
     }
 
+//    A utility function that is used to query the database and makes use of coroutines
+//    Creates a new TransactionScope then calls the specified suspending statement, suspends until it completes, and returns the result.
     suspend fun <T> dbQuery(block: suspend () -> T): T {
+//        Running on IO thread
         return newSuspendedTransaction(Dispatchers.IO) { block() }
     }
 }
