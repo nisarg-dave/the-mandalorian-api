@@ -7,7 +7,6 @@ import io.ktor.http.*
 import io.ktor.server.request.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
-import kotlin.random.Random
 
 fun Application.quoteRoutes(){
     routing {
@@ -76,7 +75,7 @@ fun Route.createQuote(){
         // With generic parameter, it automatically deserializes the JSON request body into Quote object.
         val quote = call.receive<Quote>()
 //        quotesStorage.add(quote)
-        val createdQuote = quotesDAO.addQuote(quote)
+        val createdQuote = quotesDAO.addQuote(show=quote.show, season = quote.season, episode = quote.episode, character = quote.character, quote = quote.quote )
 //       201 Created
         call.respondText("Quote stored correctly.", status = HttpStatusCode.Created)
     }
@@ -105,7 +104,8 @@ fun Route.editQuote(){
     put("/quote/{id}"){
         val id = call.parameters["id"] ?: return@put call.respond(HttpStatusCode.BadRequest)
         val editedQuote = call.receive<Quote>()
-        if(quotesDAO.editQuote(editedQuote)){
+        // Remember that with PUT the JSON body contains the complete new state of the resource, even if you're only updating a few fields but ID is fine to be as path parameter, no need for duplication
+        if(quotesDAO.editQuote(id = id.toInt(), show = editedQuote.show, season = editedQuote.season, episode = editedQuote.episode, character = editedQuote.character, quote = editedQuote.quote)){
             call.respondText("Quote updated correctly.", status = HttpStatusCode.OK)
         }
         else {
