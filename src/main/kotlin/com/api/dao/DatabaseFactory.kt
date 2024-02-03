@@ -1,7 +1,6 @@
 package com.api.dao
 
 import com.api.models.Characters
-import com.api.models.Quote
 import com.api.models.Quotes
 import com.zaxxer.hikari.*
 import io.ktor.server.config.*

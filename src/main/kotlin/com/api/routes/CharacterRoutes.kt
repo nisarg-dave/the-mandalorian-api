@@ -24,20 +24,22 @@ fun Application.characterRoutes(){
 
 fun Route.getRandomCharacter(){
     get("/random/character"){
-        if(charactersStorage.isNotEmpty()){
-            val randomNumber = Random.nextInt(1..4)
-            call.respond(charactersStorage[randomNumber])
-        }
-        else{
-            call.respondText("No character storage found.", status = HttpStatusCode.OK)
-        }
+        call.respond(charactersDAO.randomCharacter() ?: call.respondText("No character storage found.", status = HttpStatusCode.OK))
+//        if(charactersStorage.isNotEmpty()){
+//            val randomNumber = Random.nextInt(1..4)
+//            call.respond(charactersStorage[randomNumber])
+//        }
+//        else{
+//            call.respondText("No character storage found.", status = HttpStatusCode.OK)
+//        }
     }
 }
 
 fun Route.getCharacterByName(){
     get("/character/{name}"){
         val name = call.parameters["name"] ?: return@get call.respondText("Missing name.", status = HttpStatusCode.BadRequest)
-        val character = charactersStorage.find {it.name == name} ?: return@get call.respondText("Not found", status=HttpStatusCode.NotFound)
+//        val character = charactersStorage.find {it.name == name} ?: return@get call.respondText("Not found", status=HttpStatusCode.NotFound)
+        val character = charactersDAO.characterByName(name) ?: return@get call.respondText("Not found", status=HttpStatusCode.NotFound)
         call.respond(character)
     }
 }
@@ -45,7 +47,8 @@ fun Route.getCharacterByName(){
 fun Route.createCharacter(){
     post("/character"){
         val character = call.receive<Character>()
-        charactersStorage.add(character)
+//        charactersStorage.add(character)
+        val createdCharacter = charactersDAO.addCharacter(name=character.name, description = character.description)
         call.respondText("Character stored correctly.", status = HttpStatusCode.Created)
     }
 
@@ -54,7 +57,7 @@ fun Route.createCharacter(){
 fun Route.deleteCharacter(){
     delete("/character/{id}") {
         val id = call.parameters["id"] ?: return@delete call.respond(HttpStatusCode.BadRequest)
-        if(charactersStorage.removeIf {it.id == id.toInt()}){
+        if(charactersDAO.removeCharacter(id.toInt())){
             call.respondText("Character removed correctly.", status = HttpStatusCode.Accepted)
         }
         else{
@@ -66,10 +69,16 @@ fun Route.deleteCharacter(){
 fun Route.editCharacter(){
     put("/character/{id}"){
         val id = call.parameters["id"] ?: return@put call.respond(HttpStatusCode.BadRequest)
-        val characterToUpdate = charactersStorage.find { it.id == id.toInt() }
-        val indexOfCharacter = charactersStorage.indexOf(characterToUpdate)
-        charactersStorage[indexOfCharacter] = call.receive<Character>()
-        call.respondText("Character updated correctly.", status = HttpStatusCode.OK)
+//        val characterToUpdate = charactersStorage.find { it.id == id.toInt() }
+//        val indexOfCharacter = charactersStorage.indexOf(characterToUpdate)
+//        charactersStorage[indexOfCharacter] = call.receive<Character>()
+        val characterToUpdate = call.receive<Character>()
+        if(charactersDAO.editCharacter(id =  id.toInt(), name = characterToUpdate.name, description = characterToUpdate.description)){
+            call.respondText("Character updated correctly.", status = HttpStatusCode.OK)
+        }
+        else{
+            call.respondText("Not found.", status=HttpStatusCode.NotFound)
+        }
     }
 }
 

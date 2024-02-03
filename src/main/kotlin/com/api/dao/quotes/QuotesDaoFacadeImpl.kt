@@ -60,6 +60,7 @@ class QuotesDaoFacadeImpl : QuotesDaoFacade {
                 it[this.character] = character
                 it[this.quote] = quote
             }
+//            Remember with member reference operator it is always in () and not lambda {}
             insertStatement.resultedValues?.singleOrNull()?.let(::resultRowToQuote)
         }
     }
@@ -76,7 +77,6 @@ class QuotesDaoFacadeImpl : QuotesDaoFacade {
         it[this.character] = character
         it[this.quote] = quote
     } > 0 }
-
 }
 
 //Initializing the Quotes Facade
