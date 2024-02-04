@@ -1,12 +1,14 @@
 package com.api.dao.quotes
 
 import com.api.dao.DatabaseFactory.dbQuery
+import com.api.models.Characters
 import com.api.models.Quote
 import com.api.models.Quotes
 import kotlinx.coroutines.runBlocking
 import org.jetbrains.exposed.sql.ResultRow
 import org.jetbrains.exposed.sql.*
 import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
+import org.jetbrains.exposed.sql.transactions.transaction
 import kotlin.random.Random
 
 class QuotesDaoFacadeImpl : QuotesDaoFacade {
@@ -17,7 +19,7 @@ class QuotesDaoFacadeImpl : QuotesDaoFacade {
         season = row[Quotes.season],
         episode = row[Quotes.episode],
         show = row[Quotes.show],
-        character = row[Quotes.character]
+        character = row[Characters.name]
     )
 
     override suspend fun randomQuote(): Quote? {
@@ -34,7 +36,9 @@ class QuotesDaoFacadeImpl : QuotesDaoFacade {
     override suspend fun quotesByCharacter(character: String): List<Quote> {
 //        equals is an infix notation
         return dbQuery {
-            Quotes.select {Quotes.character eq character }.map(::resultRowToQuote)
+            (Quotes innerJoin Characters).select {
+                Characters.name eq character
+            }.map(::resultRowToQuote)
         }
     }
 
@@ -53,15 +57,24 @@ class QuotesDaoFacadeImpl : QuotesDaoFacade {
 //        Inside the lambda, we are specifying which value is supposed to be set for which column
 //        I think because POST returns what you posted, we return it
         return dbQuery {
-            val insertStatement = Quotes.insert {
-                it[this.show] = show
-                it[this.season] = season
-                it[this.episode] = episode
-                it[this.character] = character
-                it[this.quote] = quote
-            }
+            val characterId = Characters.select {Characters.name eq character}.singleOrNull()?.get(Characters.id)
+
+            if(characterId != null){
+                val insertStatement = Quotes.insert {
+                    it[this.show] = show
+                    it[this.season] = season
+                    it[this.episode] = episode
+                    it[this.characterId] = characterId
+                    it[this.quote] = quote
+                }
 //            Remember with member reference operator it is always in () and not lambda {}
-            insertStatement.resultedValues?.singleOrNull()?.let(::resultRowToQuote)
+                insertStatement.resultedValues?.singleOrNull()?.let(::resultRowToQuote)
+            }
+            else {
+//              the last expression in a block or function body is automatically treated as the return value
+                null
+            }
+
         }
     }
 
@@ -69,14 +82,23 @@ class QuotesDaoFacadeImpl : QuotesDaoFacade {
     override suspend fun removeQuote( id: Int ): Boolean = dbQuery { Quotes.deleteWhere { Quotes.id eq id } > 0 }
 
 
-    override suspend fun editQuote(id:Int, show: String, season: Int, episode: String, character: String, quote: String): Boolean =  dbQuery {
-        Quotes.update({Quotes.id eq id}) {
-        it[this.show] = show
-        it[this.season] = season
-        it[this.episode] = episode
-        it[this.character] = character
-        it[this.quote] = quote
-    } > 0 }
+    override suspend fun editQuote(id:Int, show: String, season: Int, episode: String, character: String, quote: String): Boolean {
+        return dbQuery {
+            val characterId = Characters.select {Characters.name eq character}.singleOrNull()?.get(Characters.id)
+            if(characterId != null){
+                Quotes.update({Quotes.id eq id}) {
+                    it[this.show] = show
+                    it[this.season] = season
+                    it[this.episode] = episode
+                    it[this.characterId] = characterId
+                    it[this.quote] = quote
+                } > 0
+            }
+            else {
+                false
+            }
+        }
+    }
 }
 
 //Initializing the Quotes Facade
