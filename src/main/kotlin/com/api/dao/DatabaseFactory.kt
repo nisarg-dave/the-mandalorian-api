@@ -1,6 +1,7 @@
 package com.api.dao
 
 import com.api.models.Characters
+import com.api.models.Planets
 import com.api.models.Quotes
 import com.zaxxer.hikari.*
 import io.ktor.server.config.*
@@ -33,6 +34,7 @@ object DatabaseFactory {
 //            SchemaUtils has utility functions that assist with creating, altering, and dropping database schema objects.
             SchemaUtils.create(Quotes)
             SchemaUtils.create(Characters)
+            SchemaUtils.create(Planets)
         }
     }
 
