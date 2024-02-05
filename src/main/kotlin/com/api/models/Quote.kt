@@ -6,7 +6,7 @@ import org.jetbrains.exposed.sql.Table
 
 // @Serializable means that Ktor knows how to serialize Quotes
 @Serializable
-data class Quote(val id:Int, val show: String, val season: Int, val episode: String, val character: String?, val quote: String)
+data class Quote(val id:Int, val show: String, val season: Int, val episode: String, val character: String, val quote: String)
 
 // creates an anonymous object that inherits the table class
 object Quotes: Table(){

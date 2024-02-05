@@ -13,14 +13,17 @@ import kotlin.random.Random
 
 class QuotesDaoFacadeImpl : QuotesDaoFacade {
 //    Builds a Quote from the row
-    private fun resultRowToQuote(row: ResultRow):Quote = Quote(
+    private fun resultRowToQuote(row: ResultRow):Quote {
+//        val characterName = Characters.select { Characters.id eq row[Quotes.characterId] }.singleOrNull()?.get(Characters.name)
+        val characterName = (Characters innerJoin Quotes).select(Characters.id eq row[Quotes.characterId]).singleOrNull()?.get(Characters.name)
+        return Quote(
         id = row[Quotes.id],
         quote = row[Quotes.quote],
         season = row[Quotes.season],
         episode = row[Quotes.episode],
         show = row[Quotes.show],
-        character = row[Characters.name]
-    )
+        character = characterName ?: "Unknown Character"
+    )}
 
     override suspend fun randomQuote(): Quote? {
         return dbQuery{
@@ -28,6 +31,8 @@ class QuotesDaoFacadeImpl : QuotesDaoFacade {
 //            Select function takes a lambda which is of type SqlExpressionBuilder. It defines useful operations on column such as eq, less, plus, times, inList etc.
 //            select returns a list of Query values which need to be converted to a Quote using resultRowToQuote which is within the current class and therefore doesn't need class definition
 //            Singleornull returns the single element
+//            Query inherits Iterable, so it is possible to traverse it
+            println(Quotes.select{Quotes.id eq randomNumber})
             Quotes.select { Quotes.id eq randomNumber }.map(::resultRowToQuote).singleOrNull()
         }
 
@@ -36,6 +41,7 @@ class QuotesDaoFacadeImpl : QuotesDaoFacade {
     override suspend fun quotesByCharacter(character: String): List<Quote> {
 //        equals is an infix notation
         return dbQuery {
+//            When joining on a foreign key, join function becomes more concise to innerJoin
             (Quotes innerJoin Characters).select {
                 Characters.name eq character
             }.map(::resultRowToQuote)
