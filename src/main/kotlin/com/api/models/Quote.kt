@@ -14,7 +14,8 @@ object Quotes: Table(){
     val show = varchar("show", 25)
     val season = integer("season")
     val episode =  varchar("episode", 20)
-    val characterId = reference("character_id", Characters.id, onDelete = ReferenceOption.SET_NULL, onUpdate = ReferenceOption.CASCADE)
+//    Preventing characters from being deleted if there is reference to it in quotes table and if character ID is updated in Characters table then character_id here is also updated but we use path parameter in PUT request and so ID will never update as iDs should be considered immutable
+    val characterId = reference("character_id", Characters.id, onDelete = ReferenceOption.RESTRICT, onUpdate = ReferenceOption.CASCADE)
     val quote = varchar("quote", 1024)
 
     override val primaryKey = PrimaryKey(id)
