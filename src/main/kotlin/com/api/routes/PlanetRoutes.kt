@@ -46,7 +46,7 @@ fun Route.getPlanetByName(){
 
 fun Route.createPlanet(){
     post("/planet"){
-        val planet = call.receive<Planet>()
+        val planet = call.receive<PlanetPostBody>()
 //        planetsStorage.add(planet)
         val createdPlanet = planetsDao.addPlanet(name=planet.name, description = planet.description)
         call.respondText("Planet stored correctly.", status = HttpStatusCode.Created)

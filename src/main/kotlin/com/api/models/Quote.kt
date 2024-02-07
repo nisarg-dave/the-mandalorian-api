@@ -8,6 +8,9 @@ import org.jetbrains.exposed.sql.Table
 @Serializable
 data class Quote(val id:Int, val show: String, val season: Int, val episode: String, val character: String, val quote: String)
 
+@Serializable
+data class QuotePostBody(val show: String, val season: Int, val episode: String, val character: String, val quote: String)
+
 // creates an anonymous object that inherits the table class
 object Quotes: Table(){
     val id = integer("id").autoIncrement()

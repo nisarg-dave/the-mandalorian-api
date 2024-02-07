@@ -6,6 +6,9 @@ import org.jetbrains.exposed.sql.Table
 @Serializable
 data class Planet(val id: Int, val name: String, val description: String)
 
+@Serializable
+data class PlanetPostBody(val name: String, val description: String)
+
 object Planets : Table() {
     val id = integer("id").autoIncrement()
     val name = varchar("name", 20)

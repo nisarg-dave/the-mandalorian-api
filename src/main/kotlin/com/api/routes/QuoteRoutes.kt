@@ -73,8 +73,7 @@ fun Route.getQuotesByShow(){
 fun Route.createQuote(){
     post("/quote"){
         // With generic parameter, it automatically deserializes the JSON request body into Quote object.
-//      Need to think about what to do with the id field sent for this, character and planet create routes
-        val quote = call.receive<Quote>()
+        val quote = call.receive<QuotePostBody>()
 //        quotesStorage.add(quote)
         val createdQuote = quotesDAO.addQuote(show=quote.show, season = quote.season, episode = quote.episode, character = quote.character, quote = quote.quote )
 //       201 Created
