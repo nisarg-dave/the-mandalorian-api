@@ -39,7 +39,7 @@ fun Route.getCharacterByName(){
     get("/character/{name}"){
         val name = call.parameters["name"] ?: return@get call.respondText("Missing name.", status = HttpStatusCode.BadRequest)
 //        val character = charactersStorage.find {it.name == name} ?: return@get call.respondText("Not found", status=HttpStatusCode.NotFound)
-        val character = charactersDAO.characterByName(name) ?: return@get call.respondText("Not found", status=HttpStatusCode.NotFound)
+        val character = charactersDAO.characterByName(name) ?: return@get call.respondText("Not found.", status=HttpStatusCode.NotFound)
         call.respond(character)
     }
 }
@@ -49,7 +49,12 @@ fun Route.createCharacter(){
         val character = call.receive<CharacterPostBody>()
 //        charactersStorage.add(character)
         val createdCharacter = charactersDAO.addCharacter(name=character.name, description = character.description)
-        call.respondText("Character stored correctly.", status = HttpStatusCode.Created)
+        if(createdCharacter != null) {
+            call.respond(status = HttpStatusCode.Created, createdCharacter)
+        }
+        else{
+            call.respondText("Failed to store Character correctly.", status = HttpStatusCode.InternalServerError)
+        }
     }
 }
 

@@ -77,7 +77,12 @@ fun Route.createQuote(){
 //        quotesStorage.add(quote)
         val createdQuote = quotesDAO.addQuote(show=quote.show, season = quote.season, episode = quote.episode, character = quote.character, quote = quote.quote )
 //       201 Created
-        call.respondText("Quote stored correctly.", status = HttpStatusCode.Created)
+        if(createdQuote != null) {
+            call.respond(status = HttpStatusCode.Created, createdQuote)
+        }
+        else{
+            call.respondText("Failed to store Quote correctly.", status = HttpStatusCode.InternalServerError)
+        }
     }
 
 }

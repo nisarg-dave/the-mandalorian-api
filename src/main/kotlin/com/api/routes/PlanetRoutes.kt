@@ -39,7 +39,7 @@ fun Route.getPlanetByName(){
     get("/planet/{name}"){
         val name = call.parameters["name"] ?: return@get call.respondText("Missing name.", status = HttpStatusCode.BadRequest)
 //        val planet = planetsStorage.find {it.name == name} ?: return@get call.respondText("Not found", status=HttpStatusCode.NotFound)
-        val planet = planetsDao.planetByName(name) ?: return@get call.respondText("Not found", status=HttpStatusCode.NotFound)
+        val planet = planetsDao.planetByName(name) ?: return@get call.respondText("Not found.", status=HttpStatusCode.NotFound)
         call.respond(planet)
     }
 }
@@ -49,9 +49,13 @@ fun Route.createPlanet(){
         val planet = call.receive<PlanetPostBody>()
 //        planetsStorage.add(planet)
         val createdPlanet = planetsDao.addPlanet(name=planet.name, description = planet.description)
-        call.respondText("Planet stored correctly.", status = HttpStatusCode.Created)
+        if(createdPlanet != null) {
+            call.respond(status = HttpStatusCode.Created, createdPlanet)
+        }
+        else{
+            call.respondText("Failed to store Planet correctly.", status = HttpStatusCode.InternalServerError)
+        }
     }
-
 }
 
 fun Route.deletePlanet(){
