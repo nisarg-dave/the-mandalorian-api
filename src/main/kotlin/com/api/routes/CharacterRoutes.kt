@@ -46,7 +46,7 @@ fun Route.getCharacterByName(){
 
 fun Route.createCharacter(){
     post("/character"){
-        val character = call.receive<CharacterPostBody>()
+        val character = call.receive<CharacterContent>()
 //        charactersStorage.add(character)
         val createdCharacter = charactersDAO.addCharacter(name=character.name, description = character.description)
         if(createdCharacter != null) {
