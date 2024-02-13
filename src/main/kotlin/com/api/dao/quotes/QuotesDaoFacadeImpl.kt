@@ -23,7 +23,8 @@ class QuotesDaoFacadeImpl : QuotesDaoFacade {
 
     override suspend fun randomQuote(): Quote? {
         return dbQuery{
-            val randomNumber = Random.nextInt(1,27)
+            val numberOfQuotes = Quotes.selectAll().count()
+            val randomNumber = Random.nextInt(1,numberOfQuotes.toInt())
 //            Select function takes a lambda which is of type SqlExpressionBuilder. It defines useful operations on column such as eq, less, plus, times, inList etc.
 //            select returns a list of Query values which need to be converted to a Quote using resultRowToQuote which is within the current class and therefore doesn't need class definition
 //            Singleornull returns the single element
@@ -266,7 +267,7 @@ fun insertQuotes(){
         QuoteContent("The Book of Boba Fett", 1, "Chapter 2", "Mayor Mok Shaiz", "I know that you sit on the throne of your former employer."),
         QuoteContent("The Book of Boba Fett", 1, "Chapter 2", "Boba Fett", "Yes. And now it is mine. And I will take this payment as what you should have brought me as tribute. You should remember, you serve as long as the Daimyo of Tatooine deem it so."),
         QuoteContent("The Book of Boba Fett", 1, "Chapter 2", "Boba Fett", "You can bring as many gladiators as you wish but these are not the death pits of Duur and I am not a sleeping Trandoshan guard. This territory is mine. Go back to Nal Hutta."),
-        QuoteContent("The Book of Boba Fett", 1, "Chapter 2", "Hutt Twin", "Sleep lightly, bounty hunter."),
+        QuoteContent("The Book of Boba Fett", 1, "Chapter 2", "Hutt Twins", "Sleep lightly, bounty hunter."),
         QuoteContent("The Book of Boba Fett", 1, "Chapter 2", "Boba Fett", "Like a bantha."),
         QuoteContent("The Book of Boba Fett", 1, "Chapter 3", "Skad", "If you're a Daimyo, then why'd you let the monger charge us a month's wages for a week's water?"),
         QuoteContent("The Book of Boba Fett", 1, "Chapter 3", "Drash", "There is no work, mighty Daimyo. Look around you."),
@@ -343,9 +344,9 @@ fun insertQuotes(){
         QuoteContent("The Mandalorian", 3, "Chapter 17", "The Armorer", "You have removed your helmet. What's worse, you did so of your own free will. You are no longer Mandalorian."),
         QuoteContent("The Mandalorian", 3, "Chapter 17", "The Mandalorian", "The Creed teaches us of redemption."),
         QuoteContent("The Mandalorian", 3, "Chapter 17", "The Mandalorian", "If I visit the planet and I can bring you proof that I have bathed in the Living Waters beneath the mines of Mandalore, then by Creed. the decree of exile will be lifted and I would redeemed."),
-        QuoteContent("The Mandalorian", 3, "Chapter 17", "Greef Carga", "I can set you up with a prime tract right over by the hot springs. You and the little one, you can settle down, hang up your blaster. Live off the fat of the land."),
+        QuoteContent("The Mandalorian", 3, "Chapter 17", "Greef Karga", "I can set you up with a prime tract right over by the hot springs. You and the little one, you can settle down, hang up your blaster. Live off the fat of the land."),
         QuoteContent("The Mandalorian", 3, "Chapter 17", "The Mandalorian", "His name is Grogu."),
-        QuoteContent("The Mandalorian", 3, "Chapter 17", "Greef Carga", "Oh. I'm confused. I thought you had completed your mission, but you're still running around here with the same little critter."),
+        QuoteContent("The Mandalorian", 3, "Chapter 17", "Greef Karga", "Oh. I'm confused. I thought you had completed your mission, but you're still running around here with the same little critter."),
         QuoteContent("The Mandalorian", 3, "Chapter 17", "The Mandalorian", "His name is Grogu."),
         QuoteContent("The Mandalorian", 3, "Chapter 17", "The Anzellan", "No squeezie."),
         QuoteContent("The Mandalorian", 3, "Chapter 17", "The Mandalorian", "Being a Mandalorian's not just learing about how to fight."),
