@@ -2,7 +2,6 @@ package com.api.dao.planets
 
 import com.api.dao.DatabaseFactory.dbQuery
 import com.api.models.*
-import kotlinx.coroutines.runBlocking
 import org.jetbrains.exposed.sql.ResultRow
 import kotlin.random.Random
 import kotlin.random.nextInt
@@ -78,15 +77,18 @@ fun insertPlanets(){
         PlanetContent("Glavis Ringwold", "Glavis Ringworld is a space station that encircled a small star. Day and night cycles artificially occur due to the sunlight that passed through the open loop. The Mandalorian visited Glavis Ringworld to find the hidden Mandalorian covert.", "https://static.wikia.nocookie.net/starwars/images/1/16/Glavis_BoBF.png/revision/latest?cb=20220130053325"),
         PlanetContent("Ossus", "Ossus is a terrestrial planet in the Adega system of the Outer Rim Territories. It is where Luke Skywalker constructed his Jedi temple and where he briefly trained Grogu.", "https://static.wikia.nocookie.net/starwars/images/3/3b/Ossus-FromTheDesertComesAStranger.png/revision/latest?cb=20220206205838"),
         PlanetContent("Unnamed Mandalorian Covert Hideout", "The Unnamed Mandalorian covert hideout planet was an unnamed planet where the Children of the Watch hid. It is known for its sandy beaches, jagged rock structures and deep caves. ", "https://static.wikia.nocookie.net/starwars/images/4/4b/CovertObjectCh19.png/revision/latest?cb=20230315094641"),
+        PlanetContent("Mandalore", "Mandalore is the home-world of Mandalorians and is located in the Outer Rim Territories. The planet was heavily bombed in the Night of a Thousand Tears by the Empire during the Great Purge of Mandalore, and millions of Mandalorians were killed, and the planet was thought to be uninhabitable. The fusion bombs and fusion rays used in the Purge crystallized the surface of the planet. During the New Republic Era, an Imperial remnant led by Moff Gideon established a secret base there but was later destroyed by the Mandalorians who reclaimed their home-world.", "https://static.wikia.nocookie.net/starwars/images/9/9d/MandaloreCh18.png/revision/latest?cb=20230308084552"),
+        PlanetContent("Concordia", "Concordia is a moon of the planet Mandalore in the Mandalore system. It used to be a mining base during the Mandalore's wars but the mines were later abandoned. The mines were later used by Concordia's governor, Pre Vizsla, for the operation of the Death Watch group. The Mandalorian grew up on Concordia and him and other members of the Children of the Watch survived the Night of a Thousand Tears by hiding on Concordia.", "https://static.wikia.nocookie.net/starwars/images/8/85/Concordia_TMCh18.png/revision/latest?cb=20230312065314"),
+        PlanetContent("Kalevala", "Kalevala is a planet located in the Mandalore system. It is the home-world of the House Kryze. The Mandalorian and Grogu visited Bo-Katan Kryze on Kalevala to find out the location of the Mines of Mandalore. Later, Kryze Castle was destroyed by Moff Gideon's TIE Interceptors and Bombers.", "https://static.wikia.nocookie.net/starwars/images/f/f9/Kalevala-Space.png/revision/latest?cb=20230302024844"),
         PlanetContent("Coruscant", "Coruscant is a city-covered planet in Coruscant system of the Core Worlds. It was the Imperial Center during the Galatic Empire. During the New Republic Era, The New Republic Defense Force maintained a presence on Coruscant, providing security and structure, while overseeing the decommission of Imperial Star Destroyers in salvage yards. Additionally, Coruscant was the center of the New Republic Amnesty Program which granted captured the chance to join the New Republic.", "https://static.wikia.nocookie.net/starwars/images/8/84/CoruscantGlobeE1.png/revision/latest?cb=20130123002137"),
         PlanetContent("Plazir-15", "Plazir-15 is located in the Outer Rim Territories and is known for its ponds, green plains and domed cities. It is ruled under a direct democracy by Captain Bombardier and the Duchess.", "https://static.wikia.nocookie.net/starwars/images/1/15/Plazir_15_MandoS3.png/revision/latest?cb=20230405084242"),
-        PlanetContent("Mandalore", "Mandalore is the home-world of Mandalorians and is located in the Outer Rim Territories. The planet was heavily bombed in the Night of a Thousand Tears by the Empire during the Great Purge of Mandalore, and millions of Mandalorians were killed, and the planet was thought to be uninhabitable. The fusion bombs and fusion rays used in the Purge crystallized the surface of the planet. During the New Republic Era, an Imperial remnant led by Moff Gideon established a secret base there but was later destroyed by the Mandalorians who reclaimed their home-world.", "https://static.wikia.nocookie.net/starwars/images/9/9d/MandaloreCh18.png/revision/latest?cb=20230308084552"),
         PlanetContent("Adelphi", "Adelphi is a terrestrial planet that houses a New Republic outpost where Carson Teva and the Adelphi Rangers are stationed.", "https://static.wikia.nocookie.net/starwars/images/8/81/Adelphi.png/revision/latest?cb=20230425072413"),
-
-
-
-
-
+        PlanetContent("Arcana", "Arcana is a planet that has many structures and fortresses constructed by the Nightsister witches of Dathomir during ancient times. Ahsoka Tano visited Arcana to retrieve a map which was led straight to Grand Admiral Thrawn.", "https://static.wikia.nocookie.net/starwars/images/5/54/ArcanaFortress.jpg/revision/latest?cb=20230824144054"),
+        PlanetContent("Lothal", "Lothal is a planet located in the Outer Rim Territories and is the home planet of Ezra Bridger. It has a Jedi temple that Ezra and his master Kanan Jarrus visited often and the temple served as a gateway to the World Between Worlds. It was under heavy Imperial rule before it was liberated due to the efforts of Ezra and the Ghost crew. Ahsoka Tano later visited Lothal to take Sabine Wren on a journey to find Ezra Bridger.", "https://static.wikia.nocookie.net/starwars/images/a/ac/Lothal-SM.png/revision/latest?cb=20200909025000"),
+        PlanetContent("Corellia", "Corellia is a planet located in the Core Worlds region. The planet has vast shipyards that were used to build starfighters and Star Destroyers for the Empire. The shipyards were later used for redistributing parts for the New Republic but many of its citizen are still loyal the Empire.", "https://static.wikia.nocookie.net/starwars/images/d/d7/Corellia-SWCT.png/revision/latest?cb=20231206040152"),
+        PlanetContent("Seatos", "Seatos is a planet located in the Denab system. It is known for its oceans, rocky surfaces, and red forests. It was originally inhabited by the Dathomiri that had left behind a mechanism which could be powered by a star map to locate Peridea. Ahsoka, Sabine, and Huyang landed on Seatos and encountered a herd of Purrgil while trying to investigate Morgan Elsbeth's Eye of Sion.", "https://static.wikia.nocookie.net/starwars/images/7/7d/Seatos-PartThree.png/revision/latest?cb=20230903170541"),
+        PlanetContent("Peridea", "Peridea is a planet located in the Far galaxy. It is the home-world of the Noti and once hosted the Witch Kingdom of the Dathomrir. The rings of the planet consist of Purrgil bones, as members of the species come to Peridea to die. Grand Admiral Thrawn and Ezra Bridger were banished to Peridea by a pod of Purrgil following the Liberation of Lothal.", "https://static.wikia.nocookie.net/starwars/images/3/34/Peridea-Ahsoka-PartSix.png/revision/latest?cb=20231125095741"),
+        PlanetContent("Dathomir", "Dathomir is a remote planet located in the Dathomir system of the Quelli sector in the Outer Rim Territories. The dark side of the Force has a strong presence of Dathomir and it home to several witch clans. Grand Admiral Thrawn, his forces and the Great Mothers escaped to Dathomir from Peridea.", "https://static.wikia.nocookie.net/starwars/images/3/34/DathomirJFO.jpg/revision/latest?cb=20200222032237"),
         )
 
     transaction {
@@ -103,17 +105,3 @@ fun insertPlanets(){
 val planetsDao = PlanetsDaoFacadeImpl().apply {
     insertPlanets()
 }
-
-
-// Concordia
-// Kalevala
-// Peredia
-// Dathomir
-
-// Mandalore
-
-// Seatos
-
-// Lothal
-
-// Corellia
