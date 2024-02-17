@@ -39,19 +39,23 @@ fun Route.getCharacterByName(){
     get("/character/{name}"){
         val name = call.parameters["name"] ?: return@get call.respondText("Missing name.", status = HttpStatusCode.BadRequest)
 //        val character = charactersStorage.find {it.name == name} ?: return@get call.respondText("Not found", status=HttpStatusCode.NotFound)
-        val character = charactersDAO.characterByName(name) ?: return@get call.respondText("Not found", status=HttpStatusCode.NotFound)
+        val character = charactersDAO.characterByName(name) ?: return@get call.respondText("Not found.", status=HttpStatusCode.NotFound)
         call.respond(character)
     }
 }
 
 fun Route.createCharacter(){
     post("/character"){
-        val character = call.receive<Character>()
+        val character = call.receive<CharacterContent>()
 //        charactersStorage.add(character)
-        val createdCharacter = charactersDAO.addCharacter(name=character.name, description = character.description)
-        call.respondText("Character stored correctly.", status = HttpStatusCode.Created)
+        val createdCharacter = charactersDAO.addCharacter(name=character.name, description = character.description, imgUrl = character.imgUrl)
+        if(createdCharacter != null) {
+            call.respond(status = HttpStatusCode.Created, createdCharacter)
+        }
+        else{
+            call.respondText("Failed to store Character correctly.", status = HttpStatusCode.InternalServerError)
+        }
     }
-
 }
 
 fun Route.deleteCharacter(){
@@ -73,7 +77,7 @@ fun Route.editCharacter(){
 //        val indexOfCharacter = charactersStorage.indexOf(characterToUpdate)
 //        charactersStorage[indexOfCharacter] = call.receive<Character>()
         val characterToUpdate = call.receive<Character>()
-        if(charactersDAO.editCharacter(id =  id.toInt(), name = characterToUpdate.name, description = characterToUpdate.description)){
+        if(charactersDAO.editCharacter(id =  id.toInt(), name = characterToUpdate.name, description = characterToUpdate.description, imgUrl = characterToUpdate.imgUrl)){
             call.respondText("Character updated correctly.", status = HttpStatusCode.OK)
         }
         else{

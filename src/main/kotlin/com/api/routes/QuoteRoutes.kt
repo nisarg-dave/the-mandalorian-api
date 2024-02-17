@@ -58,6 +58,9 @@ fun Route.getQuotesByShow(){
         val show = call.parameters["show"] ?: return@get call.respondText("Missing show.", status = HttpStatusCode.BadRequest)
         val season = call.request.queryParameters["season"]
         val quotes = quotesDAO.quotesByShow(show, season?.toInt())
+        if(quotes.isEmpty()) {
+            call.respondText("Not Found", status = HttpStatusCode.NotFound)
+        }
         call.respond(quotes)
 //        if(season == null){
 //            val quotes = quotesStorage.filter { it.show == show } ?: return@get call.respondText("No show with name $show", status = HttpStatusCode.NotFound)
@@ -73,12 +76,16 @@ fun Route.getQuotesByShow(){
 fun Route.createQuote(){
     post("/quote"){
         // With generic parameter, it automatically deserializes the JSON request body into Quote object.
-//      Need to think about what to do with the id field sent for this, character and planet create routes
-        val quote = call.receive<Quote>()
+        val quote = call.receive<QuoteContent>()
 //        quotesStorage.add(quote)
         val createdQuote = quotesDAO.addQuote(show=quote.show, season = quote.season, episode = quote.episode, character = quote.character, quote = quote.quote )
 //       201 Created
-        call.respondText("Quote stored correctly.", status = HttpStatusCode.Created)
+        if(createdQuote != null) {
+            call.respond(status = HttpStatusCode.Created, createdQuote)
+        }
+        else{
+            call.respondText("Failed to store Quote correctly.", status = HttpStatusCode.InternalServerError)
+        }
     }
 
 }

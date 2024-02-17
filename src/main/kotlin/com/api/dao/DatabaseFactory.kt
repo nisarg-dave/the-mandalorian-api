@@ -23,12 +23,14 @@ object DatabaseFactory {
         val username = config.property("storage.user").getString()
         val password = config.property("storage.password").getString()
         val databaseName = config.property("storage.database").getString()
+        val reWriteBatchedInserts = true
         val database = Database.connect(hikari(
-            url = "$jdbcURL/$databaseName?user=$username&password=$password",
+            url = "$jdbcURL/$databaseName?user=$username&password=$password&reWriteBatchedInserts=$reWriteBatchedInserts",
             driver = driverClassName,
             maxPoolSize = maxPoolSize.toInt(),
             autoCommit = autoCommit.toBoolean()
         ))
+//       CRUD operations in Exposed must be called from within a transaction. Transactions encapsulate a set of DSL operations.
         transaction(database){
 //            After obtaining the connection, all SQL statements should be placed inside a transaction
 //            SchemaUtils has utility functions that assist with creating, altering, and dropping database schema objects.
@@ -51,6 +53,11 @@ object DatabaseFactory {
 
 //    A utility function that is used to query the database and makes use of coroutines
 //    Creates a new TransactionScope then calls the specified suspending statement, suspends until it completes, and returns the result.
+//    Because Transactions are executed synchronously on the current thread, so they will block other parts of your application!
+//    And because Exposed interacts with databases using JDBC API, which was designed in an era of blocking APIs
+//    bridge functions are available that give you a safe way to interact with Exposed within suspend blocks e.g., new SuspendedTransaction
+//    These have the same parameters as a blocking transaction() but allow you to provide a CoroutineContext argument that explicitly specifies the CoroutineDispatcher in which the function will be executed.
+//    This is still blocking but newSuspendedTransaction, calls another suspend function which is the exposes orm code and waits for that to complete but runs it all in the IO thread, so that the main thread isn't blocked.
     suspend fun <T> dbQuery(block: suspend () -> T): T {
 //        Running on IO thread
         return newSuspendedTransaction(Dispatchers.IO) { block() }
