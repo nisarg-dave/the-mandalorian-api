@@ -58,6 +58,9 @@ fun Route.getQuotesByShow(){
         val show = call.parameters["show"] ?: return@get call.respondText("Missing show.", status = HttpStatusCode.BadRequest)
         val season = call.request.queryParameters["season"]
         val quotes = quotesDAO.quotesByShow(show, season?.toInt())
+        if(quotes.isEmpty()) {
+            call.respondText("Not Found", status = HttpStatusCode.NotFound)
+        }
         call.respond(quotes)
 //        if(season == null){
 //            val quotes = quotesStorage.filter { it.show == show } ?: return@get call.respondText("No show with name $show", status = HttpStatusCode.NotFound)

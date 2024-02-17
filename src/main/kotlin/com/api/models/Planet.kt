@@ -11,7 +11,7 @@ data class PlanetContent(val name: String, val description: String, val imgUrl: 
 
 object Planets : Table() {
     val id = integer("id").autoIncrement()
-    val name = varchar("name", 20)
+    val name = varchar("name", 35)
     val description = varchar("description", length = 1024)
     val imgUrl = varchar("imgUrl", length = 150)
 
