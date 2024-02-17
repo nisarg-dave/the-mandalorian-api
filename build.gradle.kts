@@ -4,6 +4,7 @@ val logback_version: String by project
 val exposed_version: String by project
 val database_driver_version: String by project
 val hikaricp_version: String by project
+val bcrypt_version: String by project
 
 plugins {
     kotlin("jvm") version "1.8.21"
@@ -37,4 +38,5 @@ dependencies {
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version")
     implementation("org.postgresql:postgresql:$database_driver_version")
     implementation("com.zaxxer:HikariCP:$hikaricp_version")
+    implementation("at.favre.lib:bcrypt:$bcrypt_version")
 }

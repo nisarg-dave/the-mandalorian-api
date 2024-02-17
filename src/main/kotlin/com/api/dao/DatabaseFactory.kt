@@ -3,6 +3,7 @@ package com.api.dao
 import com.api.models.Characters
 import com.api.models.Planets
 import com.api.models.Quotes
+import com.api.models.Users
 import com.zaxxer.hikari.*
 import io.ktor.server.config.*
 import kotlinx.coroutines.Dispatchers
@@ -37,6 +38,7 @@ object DatabaseFactory {
             SchemaUtils.create(Quotes)
             SchemaUtils.create(Characters)
             SchemaUtils.create(Planets)
+            SchemaUtils.create(Users)
         }
     }
 
