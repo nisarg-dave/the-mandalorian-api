@@ -48,7 +48,7 @@ fun Route.createCharacter(){
     post("/character"){
         val character = call.receive<CharacterContent>()
 //        charactersStorage.add(character)
-        val createdCharacter = charactersDAO.addCharacter(name=character.name, description = character.description)
+        val createdCharacter = charactersDAO.addCharacter(name=character.name, description = character.description, imgUrl = character.imgUrl)
         if(createdCharacter != null) {
             call.respond(status = HttpStatusCode.Created, createdCharacter)
         }
@@ -77,7 +77,7 @@ fun Route.editCharacter(){
 //        val indexOfCharacter = charactersStorage.indexOf(characterToUpdate)
 //        charactersStorage[indexOfCharacter] = call.receive<Character>()
         val characterToUpdate = call.receive<Character>()
-        if(charactersDAO.editCharacter(id =  id.toInt(), name = characterToUpdate.name, description = characterToUpdate.description)){
+        if(charactersDAO.editCharacter(id =  id.toInt(), name = characterToUpdate.name, description = characterToUpdate.description, imgUrl = characterToUpdate.imgUrl)){
             call.respondText("Character updated correctly.", status = HttpStatusCode.OK)
         }
         else{

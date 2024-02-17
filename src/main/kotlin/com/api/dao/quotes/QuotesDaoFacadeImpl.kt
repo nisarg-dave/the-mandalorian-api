@@ -235,7 +235,7 @@ fun insertQuotes(){
         QuoteContent("The Mandalorian", 2, "Chapter 15", "The Mandalorian", "Moff Gideon, You have something I want. You may think you have some idea of what you're in possession of, but you do not. Soon, he will be back with me. He means more to me than you will ever know."),
         QuoteContent("The Mandalorian", 2, "Chapter 16", "Bo-Katan Kryze", "We will help you. In exchange, we will keep that ship to retake Mandalore. If you should manage to finish your quest, I would have you reconsider joining our efforts. Mandalorians have been in exile from our homeworld for far too long."),
         QuoteContent("The Mandalorian", 2, "Chapter 16", "Bo-Katan Kryze", "One more thing. Gideon has a weapon that once belonged to me. It is an ancient weapon that can cut through anything."),
-        QuoteContent("The Mandalorian", 2, "Chapter 16", "Koska Reeves", "Almost anything"),
+        QuoteContent("The Mandalorian", 2, "Chapter 16", "Koska Reeves", "Almost anything."),
         QuoteContent("The Mandalorian", 2, "Chapter 16", "The Mandalorian", "Help me rescue the Child, and you can have whatever you want. He is my only priority."),
         QuoteContent("The Mandalorian", 2, "Chapter 16", "Dr. Pershing", "There's a garrison of dark troopers on board. They're the ones who abducted the Child."),
         QuoteContent("The Mandalorian", 2, "Chapter 16", "Cara Dune", "He brought him in alive, that's what happened. And now the New Republic's gonna have to double the payment."),
