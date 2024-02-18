@@ -27,6 +27,7 @@ fun Application.module() {
 //  Calling it outside this context would be like trying to call a method on an object that doesn't exist.
     configureSerialization()
     configureAuthentication()
+    configureCors()
     characterRoutes()
     quoteRoutes()
     planetRoutes()
