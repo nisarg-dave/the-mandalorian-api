@@ -1,0 +1,421 @@
+openapi: 3.0.0
+info:
+  title: Mandalorian API Documentation
+  version: 1.0.0
+security:
+  - bearerAuth: []
+paths:
+  /auth/token:
+    post:
+      summary: Authenticate user and get token
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UserContent"
+      responses:
+        200:
+          description: Authentication successful
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  token:
+                    type: string
+        401:
+          description: Invalid credentials
+
+  /random/quote:
+    get:
+      summary: Get a random quote
+      responses:
+        200:
+          description: Random quote
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Quote"
+        404:
+          description: No quotes found
+  /quotes/character/{character}:
+    get:
+      summary: Get quotes by character
+      parameters:
+        - name: character
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: Quotes by character
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Quote"
+        400:
+          description: Missing character
+        404:
+          description: Not found
+  /quotes/show/{show}:
+    get:
+      summary: Get quotes by show
+      parameters:
+        - name: show
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: season
+          in: query
+          schema:
+            type: integer
+      responses:
+        200:
+          description: Quotes by show
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Quote"
+        400:
+          description: Missing show
+        404:
+          description: Not found
+  /quote:
+    post:
+      summary: Create a quote
+      security:
+        - bearerAuth: [ ]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/QuoteContent"
+      responses:
+        201:
+          description: Quote created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Quote"
+        500:
+          description: Failed to store quote
+  /quote/{id}:
+    delete:
+      summary: Delete a quote
+      security:
+        - bearerAuth: [ ]
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        202:
+          description: Quote removed
+        400:
+          description: Bad request
+        404:
+            description: Not found
+    put:
+      summary: Edit a quote
+      security:
+        - bearerAuth: [ ]
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Quote"
+      responses:
+        200:
+          description: Quote updated
+        400:
+          description: Bad request
+        404:
+          description: Not found
+
+  /random/character:
+    get:
+      summary: Get a random character
+      responses:
+        200:
+          description: Random character
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Character"
+        404:
+          description: No characters found
+  /character/{name}:
+    get:
+      summary: Get character by name
+      parameters:
+        - name: name
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: Character by name
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Character"
+        400:
+          description: Missing name
+        404:
+          description: Not found
+  /character:
+    post:
+      summary: Create a character
+      security:
+        - bearerAuth: [ ]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CharacterContent"
+      responses:
+        201:
+          description: Character created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Character"
+        500:
+          description: Failed to store character
+  /character/{id}:
+    delete:
+      summary: Delete a character
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      security:
+        - bearerAuth: [ ]
+      responses:
+        202:
+          description: Character removed
+        400:
+          description: Bad request
+        404:
+          description: Not found
+    put:
+      summary: Edit a character
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      security:
+        - bearerAuth: [ ]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Character"
+      responses:
+        200:
+          description: Character updated
+        400:
+          description: Bad request
+        404:
+          description: Not found
+
+  /random/planet:
+    get:
+      summary: Get a random planet
+      responses:
+        200:
+          description: Random planet
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Planet"
+        404:
+          description: No planets found
+  /planet/{name}:
+    get:
+      summary: Get planet by name
+      parameters:
+        - name: name
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: Planet by name
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Planet"
+        400:
+          description: Missing name
+        404:
+          description: Not found
+  /planet:
+    post:
+      summary: Create a planet
+      security:
+        - bearerAuth: [ ]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/PlanetContent"
+      responses:
+        201:
+          description: Planet created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Planet"
+        500:
+          description: Failed to store planet
+  /planet/{id}:
+    delete:
+      summary: Delete a planet
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      security:
+        - bearerAuth: [ ]
+      responses:
+        202:
+          description: Planet removed
+        400:
+          description: Bad request
+        404:
+          description: Not found
+    put:
+      summary: Edit a planet
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      security:
+        - bearerAuth: [ ]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Planet"
+      responses:
+        200:
+          description: Planet updated
+        400:
+          description: Bad request
+        404:
+          description: Not found
+
+
+components:
+  schemas:
+    UserContent:
+      type: object
+      properties:
+        username:
+          type: string
+        password:
+          type: string
+    Quote:
+      type: object
+      properties:
+        id:
+          type: integer
+        show:
+          type: string
+        season:
+          type: string
+        episode:
+          type: string
+        character:
+          type: string
+        quote:
+          type: string
+    QuoteContent:
+      type: object
+      properties:
+        show:
+          type: string
+        season:
+          type: string
+        episode:
+          type: string
+        character:
+          type: string
+        quote:
+          type: string
+    Character:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        description:
+          type: string
+        imgUrl:
+          type: string
+    CharacterContent:
+      type: object
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+        imgUrl:
+          type: string
+    Planet:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        description:
+          type: string
+        imgUrl:
+          type: string
+    PlanetContent:
+      type: object
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+        imgUrl:
+          type: string
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer

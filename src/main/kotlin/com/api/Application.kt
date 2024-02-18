@@ -10,6 +10,8 @@ import com.api.routes.authRoute
 import com.api.routes.characterRoutes
 import com.api.routes.planetRoutes
 import com.api.routes.quoteRoutes
+import io.ktor.server.plugins.swagger.*
+import io.ktor.server.routing.*
 
 //fun main() {
 //    // We are using embeddedServer instead of application.conf file to create the server
@@ -32,4 +34,8 @@ fun Application.module() {
     quoteRoutes()
     planetRoutes()
     authRoute()
+    routing {
+//      This method tries to look up the OpenAPI specification in the application resources. Otherwise, it tries to read the OpenAPI specification from the file system using java.io.File.
+        swaggerUI(path = "swagger", swaggerFile = "openapi/documentation.yaml")
+    }
 }
