@@ -39,4 +39,6 @@ dependencies {
     implementation("org.postgresql:postgresql:$database_driver_version")
     implementation("com.zaxxer:HikariCP:$hikaricp_version")
     implementation("at.favre.lib:bcrypt:$bcrypt_version")
+    implementation("io.ktor:ktor-server-auth:$ktor_version")
+    implementation("io.ktor:ktor-server-auth-jwt:$ktor_version")
 }

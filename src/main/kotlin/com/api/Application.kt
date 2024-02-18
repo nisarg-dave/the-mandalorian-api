@@ -23,7 +23,10 @@ fun main(args: Array<String>): Unit = io.ktor.server.netty.EngineMain.main(args)
 fun Application.module() {
     DatabaseFactory.init(environment.config)
     insertUser(environment.config)
+//  These function itself is defined as an extension function for the Application class. This means it's specifically designed to operate within the context of an Application object, leveraging its properties and methods.
+//  Calling it outside this context would be like trying to call a method on an object that doesn't exist.
     configureSerialization()
+    configureAuthentication()
     characterRoutes()
     quoteRoutes()
     planetRoutes()

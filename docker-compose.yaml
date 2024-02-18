@@ -12,6 +12,10 @@ services:
       - DB_JDBC_URL=${DB_JDBC_URL}
       - ADMIN_USERNAME=${ADMIN_USERNAME}
       - ADMIN_PASSWORD=${ADMIN_PASSWORD}
+      - JWT_SECRET=${JWT_SECRET}
+      - JWT_ISSUER=${JWT_ISSUER}
+      - JWT_AUDIENCE=${JWT_AUDIENCE}
+      - JWT_REALM=${JWT_REALM}
     ports:
       - '8080:8080'
     depends_on:
