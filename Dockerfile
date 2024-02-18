@@ -1,5 +1,5 @@
 FROM gradle:7-jdk11 AS build
-# Sets ownership of the copued files to the gradle user for compatibility with Gradle
+# Sets ownership of the copied files to the gradle user for compatibility with Gradle
 COPY --chown=gradle:gradle . /home/gradle/src
 WORKDIR /home/gradle/src
 RUN gradle buildFatJar --no-daemon

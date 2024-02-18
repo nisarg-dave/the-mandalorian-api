@@ -9,6 +9,7 @@ import io.ktor.server.config.*
 import org.jetbrains.exposed.sql.ResultRow
 import org.jetbrains.exposed.sql.*
 import io.ktor.server.application.*
+import org.jetbrains.exposed.sql.transactions.transaction
 
 
 class UsersDaoFacadeImpl : UsersDaoFacade {
@@ -29,12 +30,12 @@ fun insertUser(config: ApplicationConfig){
     val adminUserUsername = config.property("admin-credentials.username").getString()
     val adminUserPassword = config.property("admin-credentials.password").getString()
     val hashedPassword = BCrypt.withDefaults().hashToString(12, adminUserPassword.toCharArray())
-    Users.insert {
-        it[this.username] = adminUserUsername
-        it[this.password] = hashedPassword
+    transaction {
+        Users.insert {
+            it[this.username] = adminUserUsername
+            it[this.password] = hashedPassword
+        }
     }
 }
 
-val userDao = UsersDaoFacadeImpl().apply{
-    insertUser(ApplicationConfig(configPath = null))
-}
+val userDao = UsersDaoFacadeImpl()
