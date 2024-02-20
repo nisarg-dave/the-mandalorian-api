@@ -4,6 +4,7 @@ import com.api.dao.planets.planetsDao
 import com.api.models.*
 import io.ktor.server.application.*
 import io.ktor.http.*
+import io.ktor.server.auth.*
 import io.ktor.server.request.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
@@ -45,49 +46,59 @@ fun Route.getPlanetByName(){
 }
 
 fun Route.createPlanet(){
-    post("/planet"){
-        val planet = call.receive<PlanetContent>()
+    authenticate("auth-jwt") {
+        post("/planet") {
+            val planet = call.receive<PlanetContent>()
 //        planetsStorage.add(planet)
-        val createdPlanet = planetsDao.addPlanet(name=planet.name, description = planet.description, imgUrl = planet.imgUrl)
-        if(createdPlanet != null) {
-            call.respond(status = HttpStatusCode.Created, createdPlanet)
-        }
-        else{
-            call.respondText("Failed to store Planet correctly.", status = HttpStatusCode.InternalServerError)
+            val createdPlanet =
+                planetsDao.addPlanet(name = planet.name, description = planet.description, imgUrl = planet.imgUrl)
+            if (createdPlanet != null) {
+                call.respond(status = HttpStatusCode.Created, createdPlanet)
+            } else {
+                call.respondText("Failed to store Planet correctly.", status = HttpStatusCode.InternalServerError)
+            }
         }
     }
 }
 
 fun Route.deletePlanet(){
-    delete("/planet/{id}") {
-        val id = call.parameters["id"] ?: return@delete call.respond(HttpStatusCode.BadRequest)
+    authenticate("auth-jwt") {
+        delete("/planet/{id}") {
+            val id = call.parameters["id"] ?: return@delete call.respond(HttpStatusCode.BadRequest)
 //        if(planetsStorage.removeIf {it.id == id.toInt()}){
 //            call.respondText("Planet removed correctly.", status = HttpStatusCode.Accepted)
 //        }
 //        else{
 //            call.respondText("Not found.", status = HttpStatusCode.NotFound)
 //        }
-        if(planetsDao.removePlanet(id.toInt())){
-            call.respondText("Planet removed correctly.", status = HttpStatusCode.Accepted)
-        }
-        else{
-            call.respondText("Not found.", status = HttpStatusCode.NotFound)
+            if (planetsDao.removePlanet(id.toInt())) {
+                call.respondText("Planet removed correctly.", status = HttpStatusCode.Accepted)
+            } else {
+                call.respondText("Not found.", status = HttpStatusCode.NotFound)
+            }
         }
     }
 }
 
 fun Route.editPlanet(){
-    put("/planet/{id}"){
-        val id = call.parameters["id"] ?: return@put call.respond(HttpStatusCode.BadRequest)
+    authenticate("auth-jwt") {
+        put("/planet/{id}") {
+            val id = call.parameters["id"] ?: return@put call.respond(HttpStatusCode.BadRequest)
 //        val planetToUpdate = planetsStorage.find { it.id == id.toInt() }
 //        val indexOfPlanet = planetsStorage.indexOf(planetToUpdate)
 //        planetsStorage[indexOfPlanet] = call.receive<Planet>()
-        val planetToUpdate = call.receive<Planet>()
-        if(planetsDao.editPlanet(id=id.toInt(), name= planetToUpdate.name, description = planetToUpdate.description, imgUrl = planetToUpdate.imgUrl)){
-            call.respondText("Planet updated correctly.", status = HttpStatusCode.OK)
-        }
-        else {
-            call.respondText("Not found.", status = HttpStatusCode.NotFound)
+            val planetToUpdate = call.receive<Planet>()
+            if (planetsDao.editPlanet(
+                    id = id.toInt(),
+                    name = planetToUpdate.name,
+                    description = planetToUpdate.description,
+                    imgUrl = planetToUpdate.imgUrl
+                )
+            ) {
+                call.respondText("Planet updated correctly.", status = HttpStatusCode.OK)
+            } else {
+                call.respondText("Not found.", status = HttpStatusCode.NotFound)
+            }
         }
     }
 }
