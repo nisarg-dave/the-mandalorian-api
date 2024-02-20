@@ -355,7 +355,7 @@ components:
         show:
           type: string
         season:
-          type: string
+          type: integer
         episode:
           type: string
         character:
@@ -368,7 +368,7 @@ components:
         show:
           type: string
         season:
-          type: string
+          type: integer
         episode:
           type: string
         character:
