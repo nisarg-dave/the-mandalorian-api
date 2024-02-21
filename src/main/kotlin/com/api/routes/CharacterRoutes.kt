@@ -49,6 +49,9 @@ fun Route.createCharacter(){
     authenticate("auth-jwt") {
         post("/character") {
             val character = call.receive<CharacterContent>()
+            if(character.name.isEmpty()) call.respondText("Character name can't be empty.", status = HttpStatusCode.BadRequest)
+            if(character.description.isEmpty()) call.respondText("Description can't be empty.", status = HttpStatusCode.BadRequest)
+            if(character.imgUrl.isEmpty()) call.respondText("Image URL can't be empty.", status = HttpStatusCode.BadRequest)
 //        charactersStorage.add(character)
             val createdCharacter = charactersDAO.addCharacter(
                 name = character.name,
@@ -85,6 +88,9 @@ fun Route.editCharacter(){
 //        val indexOfCharacter = charactersStorage.indexOf(characterToUpdate)
 //        charactersStorage[indexOfCharacter] = call.receive<Character>()
             val characterToUpdate = call.receive<Character>()
+            if(characterToUpdate.name.isEmpty()) call.respondText("Character name can't be empty.", status = HttpStatusCode.BadRequest)
+            if(characterToUpdate.description.isEmpty()) call.respondText("Description can't be empty.", status = HttpStatusCode.BadRequest)
+            if(characterToUpdate.imgUrl.isEmpty()) call.respondText("Image URL can't be empty.", status = HttpStatusCode.BadRequest)
             if (charactersDAO.editCharacter(
                     id = id.toInt(),
                     name = characterToUpdate.name,
