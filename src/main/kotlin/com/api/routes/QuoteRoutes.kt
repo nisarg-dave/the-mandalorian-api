@@ -80,6 +80,13 @@ fun Route.createQuote(){
         post("/quote") {
             // With generic parameter, it automatically deserializes the JSON request body into Quote object.
             val quote = call.receive<QuoteContent>()
+            // Validation
+            // Could do isBlank as well and the difference between is that isBlank will return true for something like this "  " but isEmpty won't, therefore isBlank cares about whitespaces
+            if(quote.show.isEmpty()) call.respondText("Show is required.", status = HttpStatusCode.BadRequest)
+            if(quote.episode.isEmpty()) call.respondText("Episode is required.", status = HttpStatusCode.BadRequest)
+            if(quote.character.isEmpty()) call.respondText("Character is required.", status = HttpStatusCode.BadRequest)
+            if(quote.quote.isEmpty()) call.respondText("Quote is required.", status = HttpStatusCode.BadRequest)
+
 //        quotesStorage.add(quote)
             val createdQuote = quotesDAO.addQuote(
                 show = quote.show,
@@ -122,6 +129,11 @@ fun Route.editQuote(){
         put("/quote/{id}") {
             val id = call.parameters["id"] ?: return@put call.respond(HttpStatusCode.BadRequest)
             val editedQuote = call.receive<Quote>()
+
+            if(editedQuote.show.isEmpty()) call.respondText("Show is required.", status = HttpStatusCode.BadRequest)
+            if(editedQuote.episode.isEmpty()) call.respondText("Episode is required.", status = HttpStatusCode.BadRequest)
+            if(editedQuote.character.isEmpty()) call.respondText("Character is required.", status = HttpStatusCode.BadRequest)
+            if(editedQuote.quote.isEmpty()) call.respondText("Quote is required.", status = HttpStatusCode.BadRequest)
             // Remember that with PUT the JSON body contains the complete new state of the resource, even if you're only updating a few fields but ID is fine to be as path parameter, no need for duplication
             if (quotesDAO.editQuote(
                     id = id.toInt(),
