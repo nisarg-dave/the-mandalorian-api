@@ -49,6 +49,9 @@ fun Route.createPlanet(){
     authenticate("auth-jwt") {
         post("/planet") {
             val planet = call.receive<PlanetContent>()
+            if(planet.name.isEmpty()) call.respondText("Planet name can't be empty.", status = HttpStatusCode.BadRequest)
+            if(planet.description.isEmpty()) call.respondText("Description can't be empty.", status = HttpStatusCode.BadRequest)
+            if(planet.imgUrl.isEmpty()) call.respondText("Image URL can't be empty.", status = HttpStatusCode.BadRequest)
 //        planetsStorage.add(planet)
             val createdPlanet =
                 planetsDao.addPlanet(name = planet.name, description = planet.description, imgUrl = planet.imgUrl)
@@ -88,6 +91,9 @@ fun Route.editPlanet(){
 //        val indexOfPlanet = planetsStorage.indexOf(planetToUpdate)
 //        planetsStorage[indexOfPlanet] = call.receive<Planet>()
             val planetToUpdate = call.receive<Planet>()
+            if(planetToUpdate.name.isEmpty()) call.respondText("Planet name can't be empty.", status = HttpStatusCode.BadRequest)
+            if(planetToUpdate.description.isEmpty()) call.respondText("Description can't be empty.", status = HttpStatusCode.BadRequest)
+            if(planetToUpdate.imgUrl.isEmpty()) call.respondText("Image URL can't be empty.", status = HttpStatusCode.BadRequest)
             if (planetsDao.editPlanet(
                     id = id.toInt(),
                     name = planetToUpdate.name,
