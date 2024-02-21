@@ -26,6 +26,8 @@ fun Application.authRoute(){
 fun Route.getToken(config: ApplicationConfig){
     post("/token"){
         val userReceived = call.receive<UserContent>()
+        if(userReceived.username.isEmpty()) call.respondText("Username is required.", status = HttpStatusCode.BadRequest)
+        if(userReceived.password.isEmpty()) call.respondText("Password is required.", status = HttpStatusCode.BadRequest)
         val userFound = userDao.findUserByUsername(userReceived.username)
         if(userFound != null){
             val hashedPassword = BCrypt.withDefaults().hashToString(12, userReceived.password.toCharArray())
