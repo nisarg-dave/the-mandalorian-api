@@ -4,10 +4,15 @@ import com.api.dao.quotes.quotesDAO
 import com.api.models.*
 import io.ktor.server.application.*
 import io.ktor.http.*
+import io.ktor.serialization.*
 import io.ktor.server.auth.*
+import io.ktor.server.plugins.*
 import io.ktor.server.request.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
+import kotlinx.serialization.ExperimentalSerializationApi
+import kotlinx.serialization.MissingFieldException
+import java.lang.Exception
 
 fun Application.quoteRoutes(){
     routing {
@@ -74,32 +79,47 @@ fun Route.getQuotesByShow(){
     }
 }
 
+@OptIn(ExperimentalSerializationApi::class)
 fun Route.createQuote(){
 //    providing name of provider
     authenticate("auth-jwt") {
         post("/quote") {
-            // With generic parameter, it automatically deserializes the JSON request body into Quote object.
-            val quote = call.receive<QuoteContent>()
-            // Validation
-            // Could do isBlank as well and the difference between is that isBlank will return true for something like this "  " but isEmpty won't, therefore isBlank cares about whitespaces
-            if(quote.show.isEmpty()) call.respondText("Show can't be empty.", status = HttpStatusCode.BadRequest)
-            if(quote.episode.isEmpty()) call.respondText("Episode can't be empty.", status = HttpStatusCode.BadRequest)
-            if(quote.character.isEmpty()) call.respondText("Character can't be empty.", status = HttpStatusCode.BadRequest)
-            if(quote.quote.isEmpty()) call.respondText("Quote can't be empty.", status = HttpStatusCode.BadRequest)
+            try{
+                // With generic parameter, it automatically deserializes the JSON request body into Quote object.
+                val quote = call.receive<QuoteContent>()
+                // Validation
+                // Could do isBlank as well and the difference between is that isBlank will return true for something like this "  " but isEmpty won't, therefore isBlank cares about whitespaces
+                if(quote.show.isEmpty()) call.respondText("Show can't be empty.", status = HttpStatusCode.BadRequest)
+                if(quote.episode.isEmpty()) call.respondText("Episode can't be empty.", status = HttpStatusCode.BadRequest)
+                if(quote.character.isEmpty()) call.respondText("Character can't be empty.", status = HttpStatusCode.BadRequest)
+                if(quote.quote.isEmpty()) call.respondText("Quote can't be empty.", status = HttpStatusCode.BadRequest)
 
 //        quotesStorage.add(quote)
-            val createdQuote = quotesDAO.addQuote(
-                show = quote.show,
-                season = quote.season,
-                episode = quote.episode,
-                character = quote.character,
-                quote = quote.quote
-            )
+                val createdQuote = quotesDAO.addQuote(
+                    show = quote.show,
+                    season = quote.season,
+                    episode = quote.episode,
+                    character = quote.character,
+                    quote = quote.quote
+                )
 //       201 Created
-            if (createdQuote != null) {
-                call.respond(status = HttpStatusCode.Created, createdQuote)
-            } else {
-                call.respondText("Failed to store Quote correctly.", status = HttpStatusCode.InternalServerError)
+                if (createdQuote != null) {
+                    call.respond(status = HttpStatusCode.Created, createdQuote)
+                } else {
+                    call.respondText("Failed to store Quote correctly.", status = HttpStatusCode.InternalServerError)
+                }
+            }
+            catch(e: BadRequestException){
+                call.respondText(e.message!!, status = HttpStatusCode.BadRequest)
+            }
+            catch(e: JsonConvertException){
+                call.respondText(e.message!!, status = HttpStatusCode.BadRequest)
+            }
+            catch(e: MissingFieldException){
+                call.respondText(e.message!!, status = HttpStatusCode.BadRequest)
+            }
+            catch(e: Exception){
+                call.respondText("An unexpected error occurred.", status = HttpStatusCode.InternalServerError)
             }
         }
     }
@@ -124,29 +144,43 @@ fun Route.deleteQuote(){
     }
 }
 
+@OptIn(ExperimentalSerializationApi::class)
 fun Route.editQuote(){
     authenticate("auth-jwt") {
         put("/quote/{id}") {
             val id = call.parameters["id"] ?: return@put call.respond(HttpStatusCode.BadRequest)
-            val editedQuote = call.receive<Quote>()
-
-            if(editedQuote.show.isEmpty()) call.respondText("Show can't be empty.", status = HttpStatusCode.BadRequest)
-            if(editedQuote.episode.isEmpty()) call.respondText("Episode can't be empty.", status = HttpStatusCode.BadRequest)
-            if(editedQuote.character.isEmpty()) call.respondText("Character can't be empty.", status = HttpStatusCode.BadRequest)
-            if(editedQuote.quote.isEmpty()) call.respondText("Quote can't be empty.", status = HttpStatusCode.BadRequest)
-            // Remember that with PUT the JSON body contains the complete new state of the resource, even if you're only updating a few fields but ID is fine to be as path parameter, no need for duplication
-            if (quotesDAO.editQuote(
-                    id = id.toInt(),
-                    show = editedQuote.show,
-                    season = editedQuote.season,
-                    episode = editedQuote.episode,
-                    character = editedQuote.character,
-                    quote = editedQuote.quote
-                )
-            ) {
-                call.respondText("Quote updated correctly.", status = HttpStatusCode.OK)
-            } else {
-                call.respondText("Not found.", status = HttpStatusCode.NotFound)
+            try{
+                val editedQuote = call.receive<Quote>()
+                if(editedQuote.show.isEmpty()) call.respondText("Show can't be empty.", status = HttpStatusCode.BadRequest)
+                if(editedQuote.episode.isEmpty()) call.respondText("Episode can't be empty.", status = HttpStatusCode.BadRequest)
+                if(editedQuote.character.isEmpty()) call.respondText("Character can't be empty.", status = HttpStatusCode.BadRequest)
+                if(editedQuote.quote.isEmpty()) call.respondText("Quote can't be empty.", status = HttpStatusCode.BadRequest)
+                // Remember that with PUT the JSON body contains the complete new state of the resource, even if you're only updating a few fields but ID is fine to be as path parameter, no need for duplication
+                if (quotesDAO.editQuote(
+                        id = id.toInt(),
+                        show = editedQuote.show,
+                        season = editedQuote.season,
+                        episode = editedQuote.episode,
+                        character = editedQuote.character,
+                        quote = editedQuote.quote
+                    )
+                ) {
+                    call.respondText("Quote updated correctly.", status = HttpStatusCode.OK)
+                } else {
+                    call.respondText("Not found.", status = HttpStatusCode.NotFound)
+                }
+            }
+            catch(e: BadRequestException){
+                call.respondText(e.message!!, status = HttpStatusCode.BadRequest)
+            }
+            catch(e: JsonConvertException){
+                call.respondText(e.message!!, status = HttpStatusCode.BadRequest)
+            }
+            catch(e: MissingFieldException){
+                call.respondText(e.message!!, status = HttpStatusCode.BadRequest)
+            }
+            catch(e: Exception){
+                call.respondText("An unexpected error occurred.", status = HttpStatusCode.InternalServerError)
             }
 //        val quoteToUpdate = quotesStorage.find {it.id == id.toInt()} ?:
 //        val indexOfQuote = quotesStorage.indexOf(quoteToUpdate)
@@ -155,4 +189,3 @@ fun Route.editQuote(){
         }
     }
 }
-
