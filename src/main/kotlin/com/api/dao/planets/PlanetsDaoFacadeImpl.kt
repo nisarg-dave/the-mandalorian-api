@@ -1,8 +1,9 @@
 package com.api.dao.planets
 
 import com.api.dao.DatabaseFactory.dbQuery
-import com.api.models.*
-import org.jetbrains.exposed.sql.ResultRow
+import com.api.models.Planet
+import com.api.models.Planets
+import com.api.models.PlanetContent
 import kotlin.random.Random
 import kotlin.random.nextInt
 import org.jetbrains.exposed.sql.*

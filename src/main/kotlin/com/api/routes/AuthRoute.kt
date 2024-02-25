@@ -19,7 +19,7 @@ import java.lang.Exception
 import java.util.*
 
 fun Application.authRoute(){
-//   Can access environment because in the scope of application
+//  Can access environment because in the scope of application
     val config = environment.config
     routing {
         route("/auth"){

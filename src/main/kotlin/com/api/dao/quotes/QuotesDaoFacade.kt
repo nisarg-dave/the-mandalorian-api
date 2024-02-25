@@ -1,6 +1,6 @@
 package com.api.dao.quotes
 
-import com.api.models.*
+import com.api.models.Quote
 
 interface QuotesDaoFacade{
     suspend fun randomQuote():Quote?

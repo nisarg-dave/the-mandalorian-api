@@ -1,6 +1,6 @@
 package com.api.dao.characters
 
-import com.api.models.*
+import com.api.models.Character
 
 interface CharactersDaoFacade {
     suspend fun randomCharacter(): Character?

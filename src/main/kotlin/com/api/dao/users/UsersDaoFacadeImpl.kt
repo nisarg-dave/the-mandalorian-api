@@ -5,7 +5,6 @@ import com.api.dao.DatabaseFactory.dbQuery
 import com.api.models.User
 import com.api.models.Users
 import io.ktor.server.config.*
-import org.jetbrains.exposed.sql.ResultRow
 import org.jetbrains.exposed.sql.*
 import org.jetbrains.exposed.sql.transactions.transaction
 

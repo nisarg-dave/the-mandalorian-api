@@ -1,6 +1,8 @@
 package com.api.dao.characters
 
-import com.api.models.*
+import com.api.models.Character
+import com.api.models.Characters
+import com.api.models.CharacterContent
 import com.api.dao.DatabaseFactory.dbQuery
 import org.jetbrains.exposed.sql.*
 import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq

@@ -1,8 +1,10 @@
 package com.api.dao.quotes
 
 import com.api.dao.DatabaseFactory.dbQuery
-import com.api.models.*
-import org.jetbrains.exposed.sql.ResultRow
+import com.api.models.Quote
+import com.api.models.Quotes
+import com.api.models.QuoteContent
+import com.api.models.Characters
 import org.jetbrains.exposed.sql.*
 import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
 import org.jetbrains.exposed.sql.transactions.transaction
