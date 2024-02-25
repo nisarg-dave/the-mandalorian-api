@@ -1,0 +1,32 @@
+on:
+  pull_request:
+    branches:
+      - main
+    # Sequence of patterns matched against refs/tags
+    tags:
+      - "v*" # Push events to matching v*, i.e. v1.0, v20.15.10
+    types:
+      - closed
+
+name: Create Release
+
+jobs:
+  build:
+    name: Create Release
+    if: github.event.pull_request.merged == true
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.MANDALORIAN_API_RELEASE_TOKEN }}
+        with:
+          tag_name: v1.0.0
+          release_name: v1.0.0
+          body: |
+            Initial release of The Mandalorian API. Consists of endpoints for quotes, characters and planets from The Mandalorian tv series and its spin-off shows The Book of Boba Fett and Ahsoka.
+          draft: false
+          prerelease: false
