@@ -9,9 +9,8 @@ import org.jetbrains.exposed.sql.*
 import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
 import org.jetbrains.exposed.sql.transactions.transaction
 
-
 class PlanetsDaoFacadeImpl : PlanetsDaoFacade {
-    private fun resultRowToPlanet(row: ResultRow):Planet = Planet(
+    private fun resultRowToPlanet(row: ResultRow) = Planet(
         id = row[Planets.id],
         name = row[Planets.name],
         description = row[Planets.description],

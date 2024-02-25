@@ -10,14 +10,14 @@ import io.ktor.server.response.*
 
 
 fun Application.configureAuthentication(){
-    //   Can access environment.config because the block is in the scope of the Application class
+//  Can access environment.config because the block is in the scope of the Application class
     val secret = environment.config.property("jwt.secret").getString()
     val issuer = environment.config.property("jwt.issuer").getString()
     val audience = environment.config.property("jwt.audience").getString()
     val myRealm = environment.config.property("jwt.realm").getString()
 
     install(Authentication){
-//        A function for using a specific provider optionally allows you to specify a provider name.
+//      A function for using a specific provider, optionally allows you to specify a provider name.
         jwt("auth-jwt") {
             realm = myRealm
 //          Verifies a token's format and its signature
@@ -36,7 +36,7 @@ fun Application.configureAuthentication(){
                     null
                 }
             }
-//           Response sent if authentication fails.
+//          Response sent if authentication fails.
             challenge{ _, _ ->
                 call.respond(HttpStatusCode.Unauthorized, "Token is not valid or has expired")
             }

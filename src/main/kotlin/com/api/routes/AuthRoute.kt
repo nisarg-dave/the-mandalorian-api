@@ -38,6 +38,7 @@ fun Route.getToken(config: ApplicationConfig){
             val userFound = userDao.findUserByUsername(userReceived.username)
             if(userFound != null){
                 val hashedPassword = BCrypt.withDefaults().hashToString(12, userReceived.password.toCharArray())
+//              Verifying if the password in application.conf is the same as the hashed password
                 val result = BCrypt.verifyer().verify(config.property("admin-credentials.password").getString().toCharArray(), hashedPassword)
                 if(result.verified){
                     val secret = config.property("jwt.secret").getString()

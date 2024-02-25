@@ -8,9 +8,8 @@ import org.jetbrains.exposed.sql.transactions.transaction
 import kotlin.random.Random
 import kotlin.random.nextInt
 
-
 class CharactersDaoFacadeImpl : CharactersDaoFacade {
-    private fun resultRowToCharacter(row: ResultRow): Character = Character(
+    private fun resultRowToCharacter(row: ResultRow) = Character(
         id = row[Characters.id],
         name = row[Characters.name],
         description = row[Characters.description],

@@ -15,9 +15,7 @@ import kotlinx.serialization.MissingFieldException
 import java.lang.Exception
 
 fun Application.planetRoutes(){
-    // Take trailing lambda as a parameter
     routing {
-        //        The routing function establishes a context where an implicit Route receiver is available within its lambda.
         getRandomPlanet()
         getPlanetByName()
         createPlanet()
@@ -28,13 +26,6 @@ fun Application.planetRoutes(){
 
 fun Route.getRandomPlanet(){
     get("/random/planet"){
-//        if(planetsStorage.isNotEmpty()){
-//            val randomNumber = Random.nextInt(1..3)
-//            call.respond(planetsStorage[randomNumber])
-//        }
-//        else{
-//            call.respondText("No planet storage found.", status = HttpStatusCode.OK)
-//        }
         call.respond(planetsDao.randomPlanet() ?: call.respondText("No planet storage found.", status = HttpStatusCode.OK))
     }
 }
@@ -42,7 +33,6 @@ fun Route.getRandomPlanet(){
 fun Route.getPlanetByName(){
     get("/planet/{name}"){
         val name = call.parameters["name"] ?: return@get call.respondText("Missing name.", status = HttpStatusCode.BadRequest)
-//        val planet = planetsStorage.find {it.name == name} ?: return@get call.respondText("Not found", status=HttpStatusCode.NotFound)
         val planet = planetsDao.planetByName(name) ?: return@get call.respondText("Not found.", status=HttpStatusCode.NotFound)
         call.respond(planet)
     }
@@ -54,10 +44,11 @@ fun Route.createPlanet(){
         post("/planet") {
             try{
                 val planet = call.receive<PlanetContent>()
+//              Validation
                 if(planet.name.isEmpty()) call.respondText("Planet name can't be empty.", status = HttpStatusCode.BadRequest)
                 if(planet.description.isEmpty()) call.respondText("Description can't be empty.", status = HttpStatusCode.BadRequest)
                 if(planet.imgUrl.isEmpty()) call.respondText("Image URL can't be empty.", status = HttpStatusCode.BadRequest)
-//        planetsStorage.add(planet)
+
                 val createdPlanet =
                     planetsDao.addPlanet(name = planet.name, description = planet.description, imgUrl = planet.imgUrl)
                 if (createdPlanet != null) {
@@ -86,12 +77,6 @@ fun Route.deletePlanet(){
     authenticate("auth-jwt") {
         delete("/planet/{id}") {
             val id = call.parameters["id"] ?: return@delete call.respond(HttpStatusCode.BadRequest)
-//        if(planetsStorage.removeIf {it.id == id.toInt()}){
-//            call.respondText("Planet removed correctly.", status = HttpStatusCode.Accepted)
-//        }
-//        else{
-//            call.respondText("Not found.", status = HttpStatusCode.NotFound)
-//        }
             if (planetsDao.removePlanet(id.toInt())) {
                 call.respondText("Planet removed correctly.", status = HttpStatusCode.Accepted)
             } else {
@@ -106,14 +91,13 @@ fun Route.editPlanet(){
     authenticate("auth-jwt") {
         put("/planet/{id}") {
             val id = call.parameters["id"] ?: return@put call.respond(HttpStatusCode.BadRequest)
-//        val planetToUpdate = planetsStorage.find { it.id == id.toInt() }
-//        val indexOfPlanet = planetsStorage.indexOf(planetToUpdate)
-//        planetsStorage[indexOfPlanet] = call.receive<Planet>()
             try{
                 val planetToUpdate = call.receive<Planet>()
+//              Validation
                 if(planetToUpdate.name.isEmpty()) call.respondText("Planet name can't be empty.", status = HttpStatusCode.BadRequest)
                 if(planetToUpdate.description.isEmpty()) call.respondText("Description can't be empty.", status = HttpStatusCode.BadRequest)
                 if(planetToUpdate.imgUrl.isEmpty()) call.respondText("Image URL can't be empty.", status = HttpStatusCode.BadRequest)
+
                 if (planetsDao.editPlanet(
                         id = id.toInt(),
                         name = planetToUpdate.name,

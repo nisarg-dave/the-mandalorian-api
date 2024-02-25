@@ -7,9 +7,9 @@ import org.jetbrains.exposed.sql.*
 import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
 import org.jetbrains.exposed.sql.transactions.transaction
 import kotlin.random.Random
+import kotlin.random.nextInt
 
 class QuotesDaoFacadeImpl : QuotesDaoFacade {
-//    Builds a Quote from the row
     private fun resultRowToQuote(row: ResultRow):Quote {
         val characterName = Characters.select { Characters.id eq row[Quotes.characterId] }.singleOrNull()?.get(Characters.name)
         return Quote(
@@ -19,25 +19,19 @@ class QuotesDaoFacadeImpl : QuotesDaoFacade {
         episode = row[Quotes.episode],
         character = characterName ?: "Unknown character",
         quote = row[Quotes.quote],
-    )}
+        )
+    }
 
     override suspend fun randomQuote(): Quote? {
         return dbQuery{
             val numberOfQuotes = Quotes.selectAll().count()
-            val randomNumber = Random.nextInt(1,numberOfQuotes.toInt())
-//            Select function takes a lambda which is of type SqlExpressionBuilder. It defines useful operations on column such as eq, less, plus, times, inList etc.
-//            select returns a list of Query values which need to be converted to a Quote using resultRowToQuote which is within the current class and therefore doesn't need class definition
-//            Singleornull returns the single element
-//            Query inherits Iterable, so it is possible to traverse it
+            val randomNumber = Random.nextInt(1..numberOfQuotes.toInt())
             Quotes.select { Quotes.id eq randomNumber }.map(::resultRowToQuote).singleOrNull()
         }
-
     }
 
     override suspend fun quotesByCharacter(character: String): List<Quote> {
-//        equals is an infix notation
         return dbQuery {
-//            When joining on a foreign key, join function becomes more concise to innerJoin
             (Quotes innerJoin Characters).select {
                 Characters.name eq character
             }.map(::resultRowToQuote)
@@ -56,8 +50,6 @@ class QuotesDaoFacadeImpl : QuotesDaoFacade {
     }
 
     override suspend fun addQuote(show: String, season: Int, episode: String, character: String, quote: String): Quote? {
-//        Inside the lambda, we are specifying which value is supposed to be set for which column
-//        I think because POST returns what you posted, we return it
         return dbQuery {
             val characterId = Characters.select {Characters.name eq character}.singleOrNull()?.get(Characters.id)
 
@@ -69,18 +61,15 @@ class QuotesDaoFacadeImpl : QuotesDaoFacade {
                     it[this.characterId] = characterId
                     it[this.quote] = quote
                 }
-//            Remember with member reference operator it is always in () and not lambda {}
                 insertStatement.resultedValues?.singleOrNull()?.let(::resultRowToQuote)
             }
             else {
-//              the last expression in a block or function body is automatically treated as the return value
                 null
             }
         }
     }
 
-//    deleteWhere will return how rows it has deleted, and then we check if it is greater than 0
-    override suspend fun removeQuote( id: Int ): Boolean = dbQuery { Quotes.deleteWhere { Quotes.id eq id } > 0 }
+    override suspend fun removeQuote( id: Int ) = dbQuery { Quotes.deleteWhere { Quotes.id eq id } > 0 }
 
     override suspend fun editQuote(id:Int, show: String, season: Int, episode: String, character: String, quote: String): Boolean {
         return dbQuery {
@@ -100,6 +89,7 @@ class QuotesDaoFacadeImpl : QuotesDaoFacade {
         }
     }
 }
+
 fun insertQuotes(){
     val quotes = listOf(
         QuoteContent("The Mandalorian", 1, "Chapter 1", "The Mandalorian", "I can bring you in warm or I can bring you in cold."),
@@ -503,7 +493,6 @@ fun insertQuotes(){
     }
 }
 
-//Initializing the Quotes Facade
 val quotesDAO = QuotesDaoFacadeImpl().apply {
     insertQuotes()
 }
