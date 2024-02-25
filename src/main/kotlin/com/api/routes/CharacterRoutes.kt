@@ -12,6 +12,8 @@ import io.ktor.server.response.*
 import io.ktor.server.routing.*
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.MissingFieldException
+import org.jetbrains.exposed.exceptions.ExposedSQLException
+import org.postgresql.util.PSQLException
 import java.lang.Exception
 
 fun Application.characterRoutes(){
@@ -79,11 +81,19 @@ fun Route.createCharacter(){
 fun Route.deleteCharacter(){
     authenticate("auth-jwt") {
         delete("/character/{id}") {
-            val id = call.parameters["id"] ?: return@delete call.respond(HttpStatusCode.BadRequest)
-            if (charactersDAO.removeCharacter(id.toInt())) {
-                call.respondText("Character removed correctly.", status = HttpStatusCode.Accepted)
-            } else {
-                call.respondText("Not found.", status = HttpStatusCode.NotFound)
+            try{
+                val id = call.parameters["id"] ?: return@delete call.respond(HttpStatusCode.BadRequest)
+                if (charactersDAO.removeCharacter(id.toInt())) {
+                    call.respondText("Character removed correctly.", status = HttpStatusCode.Accepted)
+                } else {
+                    call.respondText("Not found.", status = HttpStatusCode.NotFound)
+                }
+            }
+            catch(e:ExposedSQLException){
+                call.respondText(e.message!!, status = HttpStatusCode.InternalServerError)
+            }
+            catch(e: PSQLException){
+                call.respondText(e.message!!, status = HttpStatusCode.InternalServerError)
             }
         }
     }
