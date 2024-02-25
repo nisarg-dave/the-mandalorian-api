@@ -1,6 +1,8 @@
 package com.api.dao.characters
 
-import com.api.models.*
+import com.api.models.Character
+import com.api.models.Characters
+import com.api.models.CharacterContent
 import com.api.dao.DatabaseFactory.dbQuery
 import org.jetbrains.exposed.sql.*
 import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
@@ -8,9 +10,8 @@ import org.jetbrains.exposed.sql.transactions.transaction
 import kotlin.random.Random
 import kotlin.random.nextInt
 
-
 class CharactersDaoFacadeImpl : CharactersDaoFacade {
-    private fun resultRowToCharacter(row: ResultRow): Character = Character(
+    private fun resultRowToCharacter(row: ResultRow) = Character(
         id = row[Characters.id],
         name = row[Characters.name],
         description = row[Characters.description],

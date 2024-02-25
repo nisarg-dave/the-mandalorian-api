@@ -6,10 +6,8 @@ import io.ktor.server.application.*
 
 
 fun Application.configureSerialization() {
-//    second parameter of install is a lambda that invokes a function
-//    installs ContentNegotiation plugin and enables the JSON serializer
+//  Installs ContentNegotiation plugin and enables the JSON serializer
     install(ContentNegotiation) {
-//        registers application/json as a content type
         json()
     }
 }

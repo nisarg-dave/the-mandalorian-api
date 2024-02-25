@@ -11,7 +11,7 @@ data class UserContent(val username: String, val password: String)
 
 object Users: Table(){
     val id = integer("id").autoIncrement()
-//    unique index ensures no two rows are the same
+//  Unique index ensures no two rows are the same
     val username = varchar("username", 128).uniqueIndex()
     val password = varchar("password", 128)
 }
