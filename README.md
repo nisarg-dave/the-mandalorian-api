@@ -3,7 +3,7 @@
 
 ## The Mandalorian API
 
-An REST API built using Kotlin and Ktor that provides quotes and characters and planets information from The Mandalorian tv series ands its spin-off shows The Book of Boba Fett and Ahsoka. It also has protected endpoints for admins to create, edit and delete quotes, characters and planets.
+A REST API built using Kotlin and Ktor that provides quotes from The Mandalorian TV series and its spin-off shows, The Book of Boba Fett, and Ahsoka. It also offers information about characters and planets. Additionally, the API includes protected endpoints for administrators to create, edit, and delete quotes, characters, and planets.
 
 ## API
 
