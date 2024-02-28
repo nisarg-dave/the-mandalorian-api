@@ -43,7 +43,7 @@ Creates a new character. Below is an example of a request body.
 
 ```PUT /character/{id}```
 
-Edits a character by ```{id}```. E.g., ```PUT /character/58```. Below is an example of the request body.
+Edits a character by ```{id}```. E.g., ```PUT /character/58```. Below is an example of a request body.
 ```
 {
     "id": 58,
@@ -180,7 +180,7 @@ Creates a quote. Below is an example of a request body.
 ```
 ```PUT /quote/{id}```
 
-Edits a quote by ```{id}```. E.g., ```PUT /quote/385```. Below is an example of the request body.
+Edits a quote by ```{id}```. E.g., ```PUT /quote/385```. Below is an example of a request body.
 ```
 {
     "id": 385,
