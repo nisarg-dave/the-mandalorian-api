@@ -43,7 +43,7 @@ Creates a new character. Below is an example of a request body.
 
 ```PUT /character/{id}```
 
-Edits a character by ```{id}```. E.g., ```PUT /character/58```
+Edits a character by ```{id}```. E.g., ```PUT /character/58```. Below is an example of the request body.
 ```
 {
     "id": 58,
@@ -72,7 +72,7 @@ Gets a random quote.
 ```
 ```GET /quotes/character/{name}```
 
-Gets by a character with ```{name}```. E.g., ```GET /quotes/character/The Mandalorian ```
+Gets quotes by character with ```{name}```. E.g., ```GET /quotes/character/The Mandalorian ```
 ```
 [
     {
@@ -180,7 +180,7 @@ Creates a quote. Below is an example of a request body.
 ```
 ```PUT /quote/{id}```
 
-Edits a quote by ```{id}```. E.g., ```PUT /quote/385```
+Edits a quote by ```{id}```. E.g., ```PUT /quote/385```. Below is an example of the request body.
 ```
 {
     "id": 385,
@@ -209,7 +209,7 @@ Gets a random planet.
 ```
 ```GET /planet/{name}```
 
-Gets a planet by {name}. E.g., ```GET /planet/Nevarro```
+Gets a planet by ```{name}```. E.g., ```GET /planet/Nevarro```
 ```
 {
     "id": 2,
@@ -230,7 +230,7 @@ Creates a planet. Below is an example of a request body.
 ```
 ```PUT /planet/{id}```
 
-Edits a planet by ```{id}```. E.g., ```PUT /planet/28```
+Edits a planet by ```{id}```. E.g., ```PUT /planet/28```. Below is an example of a request body.
 ```
 {
     "id": 28,
