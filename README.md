@@ -7,6 +7,8 @@ A REST API built using Kotlin and Ktor that provides quotes from The Mandalorian
 
 ## API
 
+Swagger documentation can be found at https://the-mandalorian.dev/swagger
+
 ### Characters
 ```GET /random/character```
 
