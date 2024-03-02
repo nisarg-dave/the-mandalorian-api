@@ -57,7 +57,7 @@ jobs:
             fi
       - uses: appleboy/scp-action@v0.1.7
         name: Copy files via ssh password
-        if: steps.check_for_docker_compose.file_doesnt_exists == true
+        if: steps.check_for_docker_compose.file_doesnt_exists == 'true'
         with:
           host: ${{ secrets.HOST }}
           username: ${{ secrets.USERNAME }}
