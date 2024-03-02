@@ -50,7 +50,7 @@ jobs:
             if [ -e /srv/the-mandalorian-api/docker-compose-prod.yaml ]; then
               echo "docker-compose-prod.yaml already exists"
               cd /srv/the-mandalorian-api && docker compose down
-              rm nginx.conf
+              rm -rf /nginx/nginx.conf
               rm docker-compose-prod.yaml
               rm .env
             else
@@ -74,4 +74,4 @@ jobs:
             cd /srv/the-mandalorian-api 
             chmod u+x /srv/the-mandalorian-api/docker-compose-prod.yaml
             docker compose pull ktor-api
-            docker compose up -d
+            docker compose -f docker-compose-prod.yaml up -d
