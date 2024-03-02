@@ -56,7 +56,7 @@ jobs:
             echo "::set-output name=file_exists::"$(test -e /srv/the-mandalorian-api/docker-compose-prod.yaml && echo true || echo false)
       - uses: appleboy/scp-action@v0.1.7
         name: Copy files via ssh password
-        if: steps.check_for_docker_compose.outputs.file_exist == 'false'
+        if: steps.check_for_docker_compose.outputs.file_exists == 'false'
         with:
           host: ${{ secrets.HOST }}
           username: ${{ secrets.USERNAME }}
