@@ -41,8 +41,8 @@ jobs:
           echo "JWT_REALM=${{ secrets.JWT_REALM }}" >> .env
       - name: Retrieve public key of host and add to known hosts
         run: |
-          mkdir -p /home/runner/.ssh
-          ssh-keyscan ${{ secrets.HOST }} >> ~/.ssh/known_hosts
+          mkdir -p $HOME/.ssh
+          ssh-keyscan ${{ secrets.HOST }} >> $HOME/.ssh/known_hosts
       - uses: appleboy/ssh-action@v1.0.3
         name: Check for docker-compose-prod.yaml file and docker compose down
         with:
