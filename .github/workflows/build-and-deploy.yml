@@ -72,5 +72,6 @@ jobs:
           password: ${{ secrets.PASSWORD }}
           script: |
             cd /srv/the-mandalorian-api 
+            chmod u+x /srv/the-mandalorian-api/docker-compose-prod.yaml
             docker compose pull ktor-api
             docker compose up -d
