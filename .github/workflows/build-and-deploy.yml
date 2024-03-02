@@ -40,7 +40,7 @@ jobs:
           echo "JWT_AUDIENCE=${{ secrets.JWT_AUDIENCE }}" >> .env
           echo "JWT_REALM=${{ secrets.JWT_REALM }}" >> .env
       - uses: appleboy/ssh-action@v1.0.3
-        name: Check for docker-compose-prod.yaml file and docker compose down
+        name: Check for docker-compose-prod.yaml file, docker compose down and remove files.
         id: check_for_docker_compose
         with:
           host: ${{ secrets.HOST }}
@@ -50,13 +50,14 @@ jobs:
             if [ -e /srv/the-mandalorian-api/docker-compose-prod.yaml ]; then
               echo "docker-compose-prod.yaml already exists"
               cd /srv/the-mandalorian-api && docker compose down
+              rm nginx.conf
+              rm docker-compose-prod.yaml
+              rm .env
             else
               echo "File not there"
             fi
-            echo "::set-output name=file_exists::"$(test -e /srv/the-mandalorian-api/docker-compose-prod.yaml && echo true || echo false)
       - uses: appleboy/scp-action@v0.1.7
         name: Copy files via ssh password
-        if: steps.check_for_docker_compose.outputs.file_exists == 'false'
         with:
           host: ${{ secrets.HOST }}
           username: ${{ secrets.USERNAME }}
