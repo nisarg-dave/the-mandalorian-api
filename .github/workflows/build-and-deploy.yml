@@ -39,12 +39,9 @@ jobs:
           echo "JWT_ISSUER=${{ secrets.JWT_ISSUER }}" >> .env
           echo "JWT_AUDIENCE=${{ secrets.JWT_AUDIENCE }}" >> .env
           echo "JWT_REALM=${{ secrets.JWT_REALM }}" >> .env
-      - name: Retrieve public key of host and add to known hosts
-        run: |
-          mkdir -p $HOME/.ssh
-          ssh-keyscan ${{ secrets.HOST }} >> $HOME/.ssh/known_hosts
       - uses: appleboy/ssh-action@v1.0.3
         name: Check for docker-compose-prod.yaml file and docker compose down
+        id: check_for_docker_compose
         with:
           host: ${{ secrets.HOST }}
           username: ${{ secrets.USERNAME }}
@@ -53,10 +50,20 @@ jobs:
             if [ -e /srv/the-mandalorian-api/docker-compose-prod.yaml ]; then
               echo "docker-compose-prod.yaml already exists"
               cd /srv/the-mandalorian-api && docker compose down
+              echo "file_doesnt_exist=false"
             else
               echo "File not there"
-              scp ${{ secrets.USERNAME }}@${{ secrets.HOST }}:./nginx/nginx.conf,./docker-compose-prod.yaml,./.env /srv/the-mandalorian-api
+              echo "file_doesnt_exist=true"
             fi
+      - uses: appleboy/scp-action@v0.1.7
+        name: Copy files via ssh password
+        if: steps.check_for_docker_compose.file_doesnt_exists == true
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USERNAME }}
+          password: ${{ secrets.PASSWORD }}
+          source: "nginx/nginx.conf,docker-compose-prod.yaml,.env"
+          target: /srv/the-mandalorian-api/
       - uses: appleboy/ssh-action@v1.0.3
         name: Docker compose up
         with:
