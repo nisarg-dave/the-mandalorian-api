@@ -13,7 +13,7 @@ services:
       test: [ "CMD-SHELL", "pg_isready -U postgres" ]
       interval: 1s
   ktor-api:
-    image: dave360/mandalorian_api_server
+    image: dave360/mandalorian_api_server:latest
     container_name: "mandalorian_api_server"
     environment:
       - POSTGRES_USER=${POSTGRES_USER}
