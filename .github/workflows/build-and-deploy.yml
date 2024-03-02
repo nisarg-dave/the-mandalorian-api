@@ -50,10 +50,10 @@ jobs:
             if [ -e /srv/the-mandalorian-api/docker-compose-prod.yaml ]; then
               echo "docker-compose-prod.yaml already exists"
               cd /srv/the-mandalorian-api && docker compose down
-              echo "file_doesnt_exist=false" >> $GITHUB_OUTPUT
+              echo "::set-output name=file_doesnt_exist::false"
             else
               echo "File not there"
-              echo "file_doesnt_exist=true" >> $GITHUB_OUTPUT
+              echo "::set-output name=file_doesnt_exist::true"
             fi
       - uses: appleboy/scp-action@v0.1.7
         name: Copy files via ssh password
