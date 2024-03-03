@@ -72,5 +72,5 @@ jobs:
           script: |
             cd /srv/the-mandalorian-api 
             chmod u+x /srv/the-mandalorian-api/docker-compose-prod.yaml
-            docker compose pull ktor-api
+            docker compose -f docker-compose-prod.yaml pull ktor-api
             docker compose -f docker-compose-prod.yaml up -d
