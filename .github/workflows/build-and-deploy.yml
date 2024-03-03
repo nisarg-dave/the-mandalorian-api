@@ -41,7 +41,6 @@ jobs:
           echo "JWT_REALM=${{ secrets.JWT_REALM }}" >> .env
       - uses: appleboy/ssh-action@v1.0.3
         name: Check for docker-compose-prod.yaml file, docker compose down and remove files.
-        id: check_for_docker_compose
         with:
           host: ${{ secrets.HOST }}
           username: ${{ secrets.USERNAME }}
