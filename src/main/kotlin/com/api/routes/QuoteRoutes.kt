@@ -90,7 +90,7 @@ fun Route.createQuote(){
                 call.respondText(e.message!!, status = HttpStatusCode.BadRequest)
             }
             catch(e: Exception){
-                call.respondText("An unexpected error occurred.", status = HttpStatusCode.InternalServerError)
+                call.respondText(e.message!!, status = HttpStatusCode.InternalServerError)
             }
         }
     }
@@ -146,7 +146,7 @@ fun Route.editQuote(){
                 call.respondText(e.message!!, status = HttpStatusCode.BadRequest)
             }
             catch(e: Exception){
-                call.respondText("An unexpected error occurred.", status = HttpStatusCode.InternalServerError)
+                call.respondText(e.message!!, status = HttpStatusCode.InternalServerError)
             }
         }
     }

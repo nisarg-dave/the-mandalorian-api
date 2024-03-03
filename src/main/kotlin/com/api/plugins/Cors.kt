@@ -8,14 +8,11 @@ fun Application.configureCors(){
     install(CORS){
         anyHost()
         allowMethod(HttpMethod.Options)
-        allowMethod(HttpMethod.Get)
-        allowMethod(HttpMethod.Post)
         allowMethod(HttpMethod.Put)
         allowMethod(HttpMethod.Patch)
         allowMethod(HttpMethod.Delete)
         allowHeader(HttpHeaders.ContentType)
         allowHeader(HttpHeaders.Authorization)
-        allowHeader(HttpHeaders.AccessControlAllowOrigin)
         allowCredentials = true
         maxAgeInSeconds = 3600
     }
