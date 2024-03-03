@@ -1,12 +1,33 @@
 version: "3.8"
 services:
+  ktor-api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: "mandalorian_api_server"
+    environment:
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_DB=${POSTGRES_DB}
+      - DB_JDBC_URL=${DB_JDBC_URL}
+      - ADMIN_USERNAME=${ADMIN_USERNAME}
+      - ADMIN_PASSWORD=${ADMIN_PASSWORD}
+      - JWT_SECRET=${JWT_SECRET}
+      - JWT_ISSUER=${JWT_ISSUER}
+      - JWT_AUDIENCE=${JWT_AUDIENCE}
+      - JWT_REALM=${JWT_REALM}
+    ports:
+      - '8080:8080'
+    depends_on:
+      db:
+        condition: service_healthy  # Wait for db to be health
   db:
-    container_name: "mandalorian-api-db"
+    container_name: "mandalorian_api_db"
     image: postgres
     environment:
-      - POSTGRES_USER=${POSTGRES_DB_USER}
-      - POSTGRES_PASSWORD=${POSTGRES_DB_PASSWORD}
-      - POSTGRES_DB=${POSTGRES_DB_NAME}
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_DB=${POSTGRES_DB}
     ports:
       - '5432:5432'
     volumes:

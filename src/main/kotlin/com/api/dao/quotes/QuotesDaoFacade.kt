@@ -1,8 +1,7 @@
 package com.api.dao.quotes
 
-import com.api.models.*
+import com.api.models.Quote
 
-// Creates an interface to abstract the necessary operations for updating quotes.
 interface QuotesDaoFacade{
     suspend fun randomQuote():Quote?
     suspend fun quotesByCharacter(character: String): List<Quote>

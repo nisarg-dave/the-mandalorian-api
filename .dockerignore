@@ -1,0 +1,7 @@
+.gradle
+.idea
+build/
+Dockerfile
+docker-compose.yaml
+docker-compose-prod.yaml
+nginx/
