@@ -5,7 +5,7 @@ info:
 security:
   - bearerAuth: []
 paths:
-  /auth/token:
+  /api/auth/token:
     post:
       summary: Authenticate user and get token
       requestBody:
@@ -27,7 +27,7 @@ paths:
         401:
           description: Invalid credentials
 
-  /random/quote:
+  /api/random/quote:
     get:
       summary: Get a random quote
       responses:
@@ -39,7 +39,7 @@ paths:
                 $ref: "#/components/schemas/Quote"
         404:
           description: No quotes found
-  /quotes/character/{character}:
+  /api/quotes/character/{character}:
     get:
       summary: Get quotes by character
       parameters:
@@ -61,7 +61,7 @@ paths:
           description: Missing character
         404:
           description: Not found
-  /quotes/show/{show}:
+  /api/quotes/show/{show}:
     get:
       summary: Get quotes by show
       parameters:
@@ -87,7 +87,7 @@ paths:
           description: Missing show
         404:
           description: Not found
-  /quote:
+  /api/quote:
     post:
       summary: Create a quote
       security:
@@ -107,7 +107,7 @@ paths:
                 $ref: "#/components/schemas/Quote"
         500:
           description: Failed to store quote
-  /quote/{id}:
+  /api/quote/{id}:
     delete:
       summary: Delete a quote
       security:
@@ -149,7 +149,7 @@ paths:
         404:
           description: Not found
 
-  /random/character:
+  /api/random/character:
     get:
       summary: Get a random character
       responses:
@@ -161,7 +161,7 @@ paths:
                 $ref: "#/components/schemas/Character"
         404:
           description: No characters found
-  /character/{name}:
+  /api/character/{name}:
     get:
       summary: Get character by name
       parameters:
@@ -181,7 +181,7 @@ paths:
           description: Missing name
         404:
           description: Not found
-  /character:
+  /api/character:
     post:
       summary: Create a character
       security:
@@ -201,7 +201,7 @@ paths:
                 $ref: "#/components/schemas/Character"
         500:
           description: Failed to store character
-  /character/{id}:
+  /api/character/{id}:
     delete:
       summary: Delete a character
       parameters:
@@ -243,7 +243,7 @@ paths:
         404:
           description: Not found
 
-  /random/planet:
+  /api/random/planet:
     get:
       summary: Get a random planet
       responses:
@@ -255,7 +255,7 @@ paths:
                 $ref: "#/components/schemas/Planet"
         404:
           description: No planets found
-  /planet/{name}:
+  /api/planet/{name}:
     get:
       summary: Get planet by name
       parameters:
@@ -275,7 +275,7 @@ paths:
           description: Missing name
         404:
           description: Not found
-  /planet:
+  /api/planet:
     post:
       summary: Create a planet
       security:
@@ -295,7 +295,7 @@ paths:
                 $ref: "#/components/schemas/Planet"
         500:
           description: Failed to store planet
-  /planet/{id}:
+  /api/planet/{id}:
     delete:
       summary: Delete a planet
       parameters:

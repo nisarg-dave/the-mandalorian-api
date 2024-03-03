@@ -13,6 +13,7 @@ fun Application.configureCors(){
         allowMethod(HttpMethod.Delete)
         allowHeader(HttpHeaders.ContentType)
         allowHeader(HttpHeaders.Authorization)
+        allowHeader(HttpHeaders.AccessControlAllowOrigin)
         allowCredentials = true
         maxAgeInSeconds = 3600
     }
