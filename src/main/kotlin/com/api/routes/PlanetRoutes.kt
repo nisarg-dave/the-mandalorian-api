@@ -67,7 +67,8 @@ fun Route.createPlanet(){
                 call.respondText(e.message!!, status = HttpStatusCode.BadRequest)
             }
             catch(e: Exception){
-                call.respondText("An unexpected error occurred.", status = HttpStatusCode.InternalServerError)
+                call.respondText(e.message!!, status = HttpStatusCode.InternalServerError)
+//                call.respondText("An unexpected error occurred.", status = HttpStatusCode.InternalServerError)
             }
         }
     }
