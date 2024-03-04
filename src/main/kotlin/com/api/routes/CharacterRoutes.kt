@@ -72,7 +72,7 @@ fun Route.createCharacter(){
                 call.respondText(e.message!!, status = HttpStatusCode.BadRequest)
             }
             catch(e: Exception){
-                call.respondText("An unexpected error occurred.", status = HttpStatusCode.InternalServerError)
+                call.respondText(e.message!!, status = HttpStatusCode.InternalServerError)
             }
         }
     }
@@ -134,7 +134,7 @@ fun Route.editCharacter(){
                 call.respondText(e.message!!, status = HttpStatusCode.BadRequest)
             }
             catch(e: Exception){
-                call.respondText("An unexpected error occurred.", status = HttpStatusCode.InternalServerError)
+                call.respondText(e.message!!, status = HttpStatusCode.InternalServerError)
             }
         }
     }

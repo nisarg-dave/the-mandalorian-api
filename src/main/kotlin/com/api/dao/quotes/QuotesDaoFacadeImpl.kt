@@ -397,7 +397,7 @@ fun insertQuotes(){
         QuoteContent("The Mandalorian", 3, "Chapter 22", "Bo-Katan Kryze", "Enough Mandalorian blood has been spilled by our own hands."),
         QuoteContent("The Mandalorian", 3, "Chapter 22", "Bo-Katan Kryze", "Din Djarin took the Creed and chose to walk the Way, just as our ancestors did. He is every bit of Mandalorian that they were. Certainly as much as any of us."),
         QuoteContent("The Mandalorian", 3, "Chapter 22", "Axe Woves", "But according to our ways, the ruler of Mandalore must possess the Darksaber."),
-        QuoteContent("The Mandalorian", 3, "Chapter 22", "The Mandalorian", "While exploring Mandalore, I was captured, and this blade was taken from me. Bo Katan rescued me and slayed my captor. She defeated the enemy that defeated me.Would this blade not belong to her?"),
+        QuoteContent("The Mandalorian", 3, "Chapter 22", "The Mandalorian", "While exploring Mandalore, I was captured, and this blade was taken from me. Bo Katan rescued me and slayed my captor. She defeated the enemy that defeated me. Would this blade not belong to her?"),
         QuoteContent("The Mandalorian", 3, "Chapter 24", "Koska Reeves", "Do you live here?"),
         QuoteContent("The Mandalorian", 3, "Chapter 24", "Bo-Katan Kryze", "I've only ever seen gardens in the domed cities. I never knew the surface could still sustain plant life."),
         QuoteContent("The Mandalorian", 3, "Chapter 24", "Bo-Katan Kryze", "Moff Gideon is alive. He's gathered his forces and is using our home world as his base. They're sending up fighters to destroy the fleet."),

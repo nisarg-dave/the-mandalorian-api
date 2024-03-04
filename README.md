@@ -3,9 +3,11 @@
 
 ## The Mandalorian API
 
-A REST API built using Kotlin and Ktor that provides quotes from The Mandalorian TV series and its spin-off shows, The Book of Boba Fett, and Ahsoka. It also offers information about characters and planets. Additionally, the API includes protected endpoints for administrators to create, edit, and delete quotes, characters, and planets. The API and the Postgres database are running in Docker containers on a Digital Ocean droplet.
+A REST API built using Kotlin and Ktor that provides quotes from The Mandalorian TV series and its spin-off shows, The Book of Boba Fett, and Ahsoka. It also offers information about characters and planets. Additionally, the API includes protected endpoints for administrators to create, edit, and delete quotes, characters, and planets. The API, the Postgres database, and Nginx reverse proxy are running in Docker containers on a Digital Ocean droplet.
 
 ## API
+
+Swagger documentation can be found at https://the-mandalorian.dev/swagger
 
 ### Characters
 ```GET /random/character```

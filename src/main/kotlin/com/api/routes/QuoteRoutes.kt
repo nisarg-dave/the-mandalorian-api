@@ -90,7 +90,7 @@ fun Route.createQuote(){
                 call.respondText(e.message!!, status = HttpStatusCode.BadRequest)
             }
             catch(e: Exception){
-                call.respondText("An unexpected error occurred.", status = HttpStatusCode.InternalServerError)
+                call.respondText(e.message!!, status = HttpStatusCode.InternalServerError)
             }
         }
     }
@@ -115,20 +115,20 @@ fun Route.editQuote(){
         put("/quote/{id}") {
             val id = call.parameters["id"] ?: return@put call.respond(HttpStatusCode.BadRequest)
             try{
-                val editedQuote = call.receive<Quote>()
+                val quoteToUpdate = call.receive<Quote>()
                 // Validation
-                if(editedQuote.show.isEmpty()) call.respondText("Show can't be empty.", status = HttpStatusCode.BadRequest)
-                if(editedQuote.episode.isEmpty()) call.respondText("Episode can't be empty.", status = HttpStatusCode.BadRequest)
-                if(editedQuote.character.isEmpty()) call.respondText("Character can't be empty.", status = HttpStatusCode.BadRequest)
-                if(editedQuote.quote.isEmpty()) call.respondText("Quote can't be empty.", status = HttpStatusCode.BadRequest)
+                if(quoteToUpdate.show.isEmpty()) call.respondText("Show can't be empty.", status = HttpStatusCode.BadRequest)
+                if(quoteToUpdate.episode.isEmpty()) call.respondText("Episode can't be empty.", status = HttpStatusCode.BadRequest)
+                if(quoteToUpdate.character.isEmpty()) call.respondText("Character can't be empty.", status = HttpStatusCode.BadRequest)
+                if(quoteToUpdate.quote.isEmpty()) call.respondText("Quote can't be empty.", status = HttpStatusCode.BadRequest)
 
                 if (quotesDAO.editQuote(
                         id = id.toInt(),
-                        show = editedQuote.show,
-                        season = editedQuote.season,
-                        episode = editedQuote.episode,
-                        character = editedQuote.character,
-                        quote = editedQuote.quote
+                        show = quoteToUpdate.show,
+                        season = quoteToUpdate.season,
+                        episode = quoteToUpdate.episode,
+                        character = quoteToUpdate.character,
+                        quote = quoteToUpdate.quote
                     )
                 ) {
                     call.respondText("Quote updated correctly.", status = HttpStatusCode.OK)
@@ -146,7 +146,7 @@ fun Route.editQuote(){
                 call.respondText(e.message!!, status = HttpStatusCode.BadRequest)
             }
             catch(e: Exception){
-                call.respondText("An unexpected error occurred.", status = HttpStatusCode.InternalServerError)
+                call.respondText(e.message!!, status = HttpStatusCode.InternalServerError)
             }
         }
     }
