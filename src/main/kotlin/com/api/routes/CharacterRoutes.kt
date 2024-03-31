@@ -47,9 +47,9 @@ fun Route.createCharacter(){
             try{
                 val character = call.receive<CharacterContent>()
 //              Validation
-                if(character.name.isEmpty()) call.respondText("Character name can't be empty.", status = HttpStatusCode.BadRequest)
-                if(character.description.isEmpty()) call.respondText("Description can't be empty.", status = HttpStatusCode.BadRequest)
-                if(character.imgUrl.isEmpty()) call.respondText("Image URL can't be empty.", status = HttpStatusCode.BadRequest)
+                if(character.name.isEmpty()) return@post call.respondText("Character name can't be empty.", status = HttpStatusCode.BadRequest)
+                if(character.description.isEmpty()) return@post call.respondText("Description can't be empty.", status = HttpStatusCode.BadRequest)
+                if(character.imgUrl.isEmpty()) return@post call.respondText("Image URL can't be empty.", status = HttpStatusCode.BadRequest)
 
                 val createdCharacter = charactersDAO.addCharacter(
                     name = character.name,
@@ -108,9 +108,9 @@ fun Route.editCharacter(){
             try{
                 val characterToUpdate = call.receive<Character>()
 //              Validation
-                if(characterToUpdate.name.isEmpty()) call.respondText("Character name can't be empty.", status = HttpStatusCode.BadRequest)
-                if(characterToUpdate.description.isEmpty()) call.respondText("Description can't be empty.", status = HttpStatusCode.BadRequest)
-                if(characterToUpdate.imgUrl.isEmpty()) call.respondText("Image URL can't be empty.", status = HttpStatusCode.BadRequest)
+                if(characterToUpdate.name.isEmpty()) return@put call.respondText("Character name can't be empty.", status = HttpStatusCode.BadRequest)
+                if(characterToUpdate.description.isEmpty()) return@put call.respondText("Description can't be empty.", status = HttpStatusCode.BadRequest)
+                if(characterToUpdate.imgUrl.isEmpty()) return@put call.respondText("Image URL can't be empty.", status = HttpStatusCode.BadRequest)
 
                 if (charactersDAO.editCharacter(
                         id = id.toInt(),

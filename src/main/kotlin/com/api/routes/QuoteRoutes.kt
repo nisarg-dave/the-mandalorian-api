@@ -38,7 +38,9 @@ fun Route.getQuotesByCharacter(){
         if(quotesByCharacter.isEmpty()){
             call.respondText("Not Found", status = HttpStatusCode.NotFound)
         }
-        call.respond(quotesByCharacter)
+        else {
+            call.respond(quotesByCharacter)
+        }
     }
 }
 
@@ -50,7 +52,9 @@ fun Route.getQuotesByShow(){
         if(quotes.isEmpty()) {
             call.respondText("Not Found", status = HttpStatusCode.NotFound)
         }
-        call.respond(quotes)
+        else {
+            call.respond(quotes)
+        }
     }
 }
 
@@ -62,10 +66,10 @@ fun Route.createQuote(){
             try{
                 val quote = call.receive<QuoteContent>()
                 // Validation
-                if(quote.show.isEmpty()) call.respondText("Show can't be empty.", status = HttpStatusCode.BadRequest)
-                if(quote.episode.isEmpty()) call.respondText("Episode can't be empty.", status = HttpStatusCode.BadRequest)
-                if(quote.character.isEmpty()) call.respondText("Character can't be empty.", status = HttpStatusCode.BadRequest)
-                if(quote.quote.isEmpty()) call.respondText("Quote can't be empty.", status = HttpStatusCode.BadRequest)
+                if(quote.show.isEmpty()) return@post call.respondText("Show can't be empty.", status = HttpStatusCode.BadRequest)
+                if(quote.episode.isEmpty()) return@post call.respondText("Episode can't be empty.", status = HttpStatusCode.BadRequest)
+                if(quote.character.isEmpty()) return@post call.respondText("Character can't be empty.", status = HttpStatusCode.BadRequest)
+                if(quote.quote.isEmpty()) return@post call.respondText("Quote can't be empty.", status = HttpStatusCode.BadRequest)
 
                 val createdQuote = quotesDAO.addQuote(
                     show = quote.show,
@@ -117,10 +121,10 @@ fun Route.editQuote(){
             try{
                 val quoteToUpdate = call.receive<Quote>()
                 // Validation
-                if(quoteToUpdate.show.isEmpty()) call.respondText("Show can't be empty.", status = HttpStatusCode.BadRequest)
-                if(quoteToUpdate.episode.isEmpty()) call.respondText("Episode can't be empty.", status = HttpStatusCode.BadRequest)
-                if(quoteToUpdate.character.isEmpty()) call.respondText("Character can't be empty.", status = HttpStatusCode.BadRequest)
-                if(quoteToUpdate.quote.isEmpty()) call.respondText("Quote can't be empty.", status = HttpStatusCode.BadRequest)
+                if(quoteToUpdate.show.isEmpty()) return@put call.respondText("Show can't be empty.", status = HttpStatusCode.BadRequest)
+                if(quoteToUpdate.episode.isEmpty()) return@put call.respondText("Episode can't be empty.", status = HttpStatusCode.BadRequest)
+                if(quoteToUpdate.character.isEmpty()) return@put call.respondText("Character can't be empty.", status = HttpStatusCode.BadRequest)
+                if(quoteToUpdate.quote.isEmpty()) return@put call.respondText("Quote can't be empty.", status = HttpStatusCode.BadRequest)
 
                 if (quotesDAO.editQuote(
                         id = id.toInt(),

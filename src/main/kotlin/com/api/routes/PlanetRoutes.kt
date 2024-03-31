@@ -45,9 +45,9 @@ fun Route.createPlanet(){
             try{
                 val planet = call.receive<PlanetContent>()
 //              Validation
-                if(planet.name.isEmpty()) call.respondText("Planet name can't be empty.", status = HttpStatusCode.BadRequest)
-                if(planet.description.isEmpty()) call.respondText("Description can't be empty.", status = HttpStatusCode.BadRequest)
-                if(planet.imgUrl.isEmpty()) call.respondText("Image URL can't be empty.", status = HttpStatusCode.BadRequest)
+                if(planet.name.isEmpty()) return@post call.respondText("Planet name can't be empty.", status = HttpStatusCode.BadRequest)
+                if(planet.description.isEmpty()) return@post call.respondText("Description can't be empty.", status = HttpStatusCode.BadRequest)
+                if(planet.imgUrl.isEmpty()) return@post call.respondText("Image URL can't be empty.", status = HttpStatusCode.BadRequest)
 
                 val createdPlanet =
                     planetsDao.addPlanet(name = planet.name, description = planet.description, imgUrl = planet.imgUrl)
@@ -94,9 +94,9 @@ fun Route.editPlanet(){
             try{
                 val planetToUpdate = call.receive<Planet>()
 //              Validation
-                if(planetToUpdate.name.isEmpty()) call.respondText("Planet name can't be empty.", status = HttpStatusCode.BadRequest)
-                if(planetToUpdate.description.isEmpty()) call.respondText("Description can't be empty.", status = HttpStatusCode.BadRequest)
-                if(planetToUpdate.imgUrl.isEmpty()) call.respondText("Image URL can't be empty.", status = HttpStatusCode.BadRequest)
+                if(planetToUpdate.name.isEmpty()) return@put call.respondText("Planet name can't be empty.", status = HttpStatusCode.BadRequest)
+                if(planetToUpdate.description.isEmpty()) return@put call.respondText("Description can't be empty.", status = HttpStatusCode.BadRequest)
+                if(planetToUpdate.imgUrl.isEmpty()) return@put call.respondText("Image URL can't be empty.", status = HttpStatusCode.BadRequest)
 
                 if (planetsDao.editPlanet(
                         id = id.toInt(),
