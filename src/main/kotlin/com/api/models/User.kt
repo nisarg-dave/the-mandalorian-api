@@ -14,4 +14,6 @@ object Users: Table(){
 //  Unique index ensures no two rows are the same
     val username = varchar("username", 128).uniqueIndex()
     val password = varchar("password", 128)
+
+    override val primaryKey = PrimaryKey(id)
 }

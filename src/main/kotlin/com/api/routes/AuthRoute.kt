@@ -33,8 +33,8 @@ fun Route.getToken(config: ApplicationConfig){
     post("/token"){
         try{
             val userReceived = call.receive<UserContent>()
-            if(userReceived.username.isEmpty()) call.respondText("Username can't be empty.", status = HttpStatusCode.BadRequest)
-            if(userReceived.password.isEmpty()) call.respondText("Password can't be empty.", status = HttpStatusCode.BadRequest)
+            if(userReceived.username.isEmpty()) return@post call.respondText("Username can't be empty.", status = HttpStatusCode.BadRequest)
+            if(userReceived.password.isEmpty()) return@post call.respondText("Password can't be empty.", status = HttpStatusCode.BadRequest)
             val userFound = userDao.findUserByUsername(userReceived.username)
             if(userFound != null){
                 val hashedPassword = BCrypt.withDefaults().hashToString(12, userReceived.password.toCharArray())
